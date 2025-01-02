@@ -1,0 +1,25 @@
+# Logs
+logs
+*.log
+
+# Dependency directory
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment files
+.env
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Coverage reports
+coverage/
+
+# System files
+.DS_Store
+Thumbs.db

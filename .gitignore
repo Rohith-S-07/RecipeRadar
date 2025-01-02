@@ -1,0 +1,51 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node modules
+node_modules/
+
+# Dependency directories
+client/node_modules/
+server/node_modules/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+*.env
+client/.env
+server/.env
+
+# Build and output directories
+dist/
+client/dist/
+server/dist/
+build/
+client/build/
+server/build/
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.bak
+
+# Coverage reports
+coverage/
+client/coverage/
+server/coverage/
+
+# Miscellaneous
+*.log
+*.pid
+*.seed
+*.pid.lock
