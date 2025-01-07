@@ -9,8 +9,7 @@ node_modules/
 dist/
 build/
 
-# Environment files
-.env
+
 
 # Temporary files
 *.tmp
