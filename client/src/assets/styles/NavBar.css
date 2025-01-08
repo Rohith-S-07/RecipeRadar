@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&family=Pacifico&family=Playwrite+VN&family=Rubik+Vinyl&display=swap");
+
+.custom-navbar {
+  background: white;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  min-height: 50px;
+}
+
+.navbar-toggler {
+  border-color: #00ce00 !important;
+  --bs-navbar-toggler-focus-width: none;
+}
+
+.navbar-toggler-icon {
+  color: #00ce00 !important;
+}
+
+.navbar-nav .nav-link {
+  color: #00ce00;
+  margin-right: 20px;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ff8800;
+}
+
+.navbar-nav .nav-link.active {
+  background-color: white;
+  font-weight: bold;
+  color: #ff8800 !important;
+}
+
+/* .navbar-nav .nav-item:not(:last-child)::after {
+  content: "|";
+  color: #00b200;
+  padding-left: 10px;
+  padding-right: 10px;
+} */
+
+.navbar-nav .nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  justify-content: space-between;
+}
+
+.custom-heading {
+  font-family: "Pacifico", serif;
+  font-weight: 100;
+  background: linear-gradient(#00ce00, #00b200);
+  background-clip: text;
+  color: transparent;
+}
+
+.navbar .login-btn{
+    color: white;
+    background-color: #ff8800;
+    border: 1px #ff8800 solid;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+@media (max-width: 990px) {
+  .navbar-nav .nav-item:not(:last-child)::after {
+    content: " ";
+  }
+
+  .navbar-nav .nav-link {
+    width: 100%;
+    text-align: center;
+    margin-right: 0;
+  }
+}

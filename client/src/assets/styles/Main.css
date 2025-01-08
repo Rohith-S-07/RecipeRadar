@@ -1,0 +1,18 @@
+* {
+  font-family: "Poppins" serif;
+}
+
+body {
+  background: linear-gradient(to right, #f4f4f4, #dfdfdf);
+  color: white;
+}
+
+.content-container {
+  padding: 80px 1vw 0 1vw;
+}
+
+.page-content {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.5s forwards;
+}

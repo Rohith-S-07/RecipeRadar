@@ -1,5 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import '../assets/styles/NavBar.css'
+import RecipeLogo from '../assets/images/recipe-radar-logo.png'
 
 const NavBar = () => {
 
@@ -12,11 +14,11 @@ const NavBar = () => {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg custom-navbar fixed-top mx-1">
+        <nav className="navbar navbar-expand-lg custom-navbar fixed-top">
             <div className="container-fluid">
                 <NavLink className="navbar-brand" to="/">
-                    <img src='' alt="RC" height={50} />
-                    <span className="custom-heading fs-4">Recipe Radar</span>
+                    <img src={RecipeLogo} alt="RR" height={40} />
+                    <span className="custom-heading fs-3 pb-1 ms-2">Recipe Radar</span>
                 </NavLink>
                 <button
                     className="navbar-toggler"
@@ -30,23 +32,33 @@ const NavBar = () => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav ms-auto">
+                    <ul className="navbar-nav mx-auto">
                         <li className="nav-item">
                             <NavLink className="nav-link mt-1" to="/" activeClassName="active" exact onClick={handleNavLinkClick}>
                                 Home
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link mt-1" to="/aboutus" activeClassName="active" onClick={handleNavLinkClick}>
-                                About Us
+                            <NavLink className="nav-link mt-1" to="/recipes" activeClassName="active" exact onClick={handleNavLinkClick}>
+                                Recipes
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link mt-1" to="/contactus" activeClassName="active" onClick={handleNavLinkClick}>
-                                Contact Us
+                            <NavLink className="nav-link mt-1" to="/about" activeClassName="active" onClick={handleNavLinkClick}>
+                                About
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link mt-1" to="/contact" activeClassName="active" onClick={handleNavLinkClick}>
+                                Contact
                             </NavLink>
                         </li>
                     </ul>
+                    
+                    <div className="">
+                        <button className="login-btn">Log in</button>
+                    </div>
+                    
                 </div>
             </div>
         </nav>
