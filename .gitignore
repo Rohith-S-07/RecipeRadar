@@ -17,9 +17,7 @@ server/node_modules/
 Thumbs.db
 
 # Environment files
-*.env
-client/.env
-server/.env
+
 
 # Build and output directories
 dist/
