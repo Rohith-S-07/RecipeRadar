@@ -1,9 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Londrina+Shadow&family=Pacifico&family=Playwrite+VN&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 * {
   font-family: "Poppins" serif;
 }
 
+:root {
+  --primary: #82b028;
+  --secondary: #3a3a3a;
+  --ternary: #a6a7a5;
+}
+
 body {
-  background: linear-gradient(to right, #f4f4f4, #dfdfdf);
+  background: linear-gradient(to right, #dbffd09a, #f4f4f4);
   color: white;
 }
 
@@ -15,4 +23,46 @@ body {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.5s forwards;
+}
+
+.cook-img {
+  height: 450px !important;
+  border: 7px solid var(--ternary);
+  border-radius: 50%;
+}
+
+.food-img {
+  height: 160px !important;
+  margin-top: 40px;
+  margin-left: -90px;
+  border: 8px solid var(--primary);
+  box-shadow: 0 0 0 10px var(--ternary);
+  border-radius: 50%;
+}
+
+.text-stroke {
+  font-family: "Londrina Shadow", serif;
+  font-weight: 500;
+  background: var(--secondary);
+  background-clip: text;
+  color: transparent;
+  font-size: 60px;
+}
+
+.text-custom {
+  font-family: "Pacifico", serif;
+  font-weight: lighter;
+  text-shadow: -1px -1px 0 var(--primary);
+  background: var(--ternary);
+  background-clip: text;
+  color: transparent;
+  font-size: 60px;
+}
+
+.explore-btn {
+  border: 1px solid var(--secondary);
+  background-color: var(--secondary);
+  color: white;
+  text-decoration: none;
+  width: fit-content;
 }

@@ -1,39 +1,46 @@
-@import url("https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&family=Pacifico&family=Playwrite+VN&family=Rubik+Vinyl&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Londrina+Shadow&family=Pacifico&family=Playwrite+VN&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root{
+  --primary: #82b028;
+  --secondary: #3a3a3a;
+  --ternary: #a6a7a5;
+}
 
 .custom-navbar {
-  background: white;
+  /* background: rgba(255, 255, 255, 0.699); */
+  background: linear-gradient(to right, #dbffd09a, #f4f4f4);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   min-height: 50px;
 }
 
 .navbar-toggler {
-  border-color: #00ce00 !important;
+  border-color: var(--primary) !important;
   --bs-navbar-toggler-focus-width: none;
 }
 
 .navbar-toggler-icon {
-  color: #00ce00 !important;
+  color: var(--primary) !important;
 }
 
 .navbar-nav .nav-link {
-  color: #00ce00;
+  color: var(--secondary);
   margin-right: 20px;
 }
 
 .navbar-nav .nav-link:hover {
-  color: #ff8800;
+  color: var(--primary);
 }
 
 .navbar-nav .nav-link.active {
-  background-color: white;
+  background-color: transparent;
   font-weight: bold;
-  color: #ff8800 !important;
+  color: var(--primary) !important;
 }
 
 /* .navbar-nav .nav-item:not(:last-child)::after {
   content: "|";
-  color: #00b200;
+  color: var(--ternary);
   padding-left: 10px;
   padding-right: 10px;
 } */
@@ -53,16 +60,17 @@
 .custom-heading {
   font-family: "Pacifico", serif;
   font-weight: 100;
-  background: linear-gradient(#00ce00, #00b200);
+  background: linear-gradient(var(--primary), #6c9123);
   background-clip: text;
   color: transparent;
 }
 
 .navbar .login-btn{
-    color: white;
-    background-color: #ff8800;
-    border: 1px #ff8800 solid;
-    border-radius: 10px;
+    color: var(--primary);
+    background-color: #fff;
+    font-weight: 500;
+    border: 1px var(--primary) solid;
+    border-radius: 20px;
     padding: 5px 10px;
 }
 
