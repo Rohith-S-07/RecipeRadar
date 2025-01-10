@@ -17,7 +17,7 @@ const NavBar = () => {
             <div className="container-fluid">
                 {/* Logo and Brand Name */}
                 <NavLink className="navbar-brand d-flex align-items-center" to="/">
-                    <img src={RecipeLogo} alt="RR" height={50} />
+                    <img src={RecipeLogo} alt="RR"/>
                     <span className="custom-heading fs-2 pb-1 ms-2">Recipe Radar</span>
                 </NavLink>
 
@@ -84,8 +84,8 @@ const NavBar = () => {
                         </li>
                     </ul>
 
-                    <div className="me-4">
-                        <button className="login-btn">Log in</button>
+                    <div className="d-flex">
+                        <button className="login-btn mx-auto">Log in</button>
                     </div>
                 </div>
             </div>
