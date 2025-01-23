@@ -1,0 +1,131 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container {
+  padding: 10px 30px;
+  text-align: center;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 16px;
+  padding: 20px;
+  animation: animate-border 4s linear infinite;
+  z-index: 2;
+  position: relative;
+}
+
+.wrapper dotlottie-player {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 30vh;
+  left: 45vw;
+  z-index: 1;
+  opacity: 1;
+}
+
+.form-container .heading {
+  font-size: 27px;
+  font-family: sans-serif;
+  transition-duration: 1s;
+  transition-timing-function: ease-in;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  background: linear-gradient(to bottom, #43a4ff, #0b89ff);
+  background-clip: text;
+  color: transparent;
+}
+
+form {
+  position: relative;
+  z-index: 2;
+}
+
+label {
+  display: block;
+  margin: 5px 0 0 0;
+  color: #ffbb00;
+}
+
+input {
+  appearance: none;
+  outline: 0;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  padding: 5px 10px;
+  text-align: center;
+  display: block;
+  width: 100%;
+  font-weight: 300;
+}
+
+input:hover {
+  background-color: rgba(255, 255, 255, 0.751);
+}
+
+input:focus {
+  background-color: rgba(255, 255, 255, 0.75);
+  color: #00188e;
+}
+
+form select {
+  outline: 0;
+  background-color: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  width: 300px;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 0 auto 5px auto;
+  display: block;
+  text-align: center;
+  font-size: 1.2rem;
+  color: white;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+}
+
+form select option {
+  color: #00188e;
+}
+
+form select:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+form select:focus {
+  background-color: rgba(255, 255, 255, 0.75);
+  color: #00188e;
+}
+
+.new-user {
+  color: white;
+  font-size: 0.8rem;
+  font-weight: lighter;
+  margin: 10px 0 0 0;
+}
+
+.register-link {
+  color: rgb(0, 119, 255);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.custom-btn-primary{
+    background-color: var(--primary) !important;
+    border: var(--primary) !important;
+}

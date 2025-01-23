@@ -17,7 +17,7 @@ const NavBar = () => {
             <div className="container-fluid">
                 {/* Logo and Brand Name */}
                 <NavLink className="navbar-brand d-flex align-items-center" to="/">
-                    <img src={RecipeLogo} alt="RR"/>
+                    <img src={RecipeLogo} alt="RR" />
                     <span className="custom-heading fs-2 pb-1 ms-2">Recipe Radar</span>
                 </NavLink>
 
@@ -36,7 +36,7 @@ const NavBar = () => {
 
                 {/* Navigation Items and Login Button */}
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav mx-auto">
+                    <ul className="navbar-nav mx-auto  justify-content-center">
                         <li className="nav-item">
                             <NavLink
                                 className={({ isActive }) =>
@@ -84,8 +84,10 @@ const NavBar = () => {
                         </li>
                     </ul>
 
-                    <div className="d-flex">
-                        <button className="login-btn mx-auto">Log in</button>
+                    <div className="d-flex justify-content-center">
+                        <a href="/signin">
+                            <button className="login-btn mx-auto" >Sign In</button>
+                        </a>
                     </div>
                 </div>
             </div>
