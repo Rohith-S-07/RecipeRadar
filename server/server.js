@@ -8,14 +8,10 @@ const app = express();
 dotenv.config();
 connectDB();
 
-// Configure CORS dynamically based on environment
-const corsOptions = {
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',  // Use env variable for production
-  credentials: true,
-};
+
 
 // Middlewares
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
@@ -23,7 +19,7 @@ app.use('/uploads', express.static('uploads'));
 const authRoutes = require('./routes/authRoutes');
 
 // Routes
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 app.use(errorHandler);
 
