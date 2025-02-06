@@ -16,6 +16,12 @@ const Footer = () => {
         <div className="col mb-3">
           <ul className="list-unstyled">
             <li>
+              <NavLink className="text-decoration-none text-muted" to="/recipes">
+                Recipes
+              </NavLink>
+            </li>
+
+            <li>
               <NavLink className="text-decoration-none text-muted" to="/about">
                 About Us
               </NavLink>
@@ -29,15 +35,15 @@ const Footer = () => {
           </ul>
         </div>
         <div className="col mb-3 fs-4">
-              <a href="#" className="text-decoration-none text-muted">
-                <i class="fa-brands fa-github me-4"></i>
-              </a>
-              <a href="#" className="text-decoration-none text-muted">
-                <i className="fab fa-x-twitter me-4"></i>
-              </a>
-              <a href="#" className="text-decoration-none text-muted">
-                <i className="fab fa-instagram me-4"></i>
-              </a>
+          <a href="#" className="text-decoration-none text-muted">
+            <i class="fa-brands fa-github me-4"></i>
+          </a>
+          <a href="#" className="text-decoration-none text-muted">
+            <i className="fab fa-x-twitter me-4"></i>
+          </a>
+          <a href="#" className="text-decoration-none text-muted">
+            <i className="fab fa-instagram me-4"></i>
+          </a>
         </div>
         <div className="col mb-3">
           <ul className="list-unstyled text-muted">

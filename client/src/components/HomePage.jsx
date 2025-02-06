@@ -1,6 +1,11 @@
 import React from 'react';
 import CookImg from '../assets/images/cookImg.jpg';
 import Salad from '../assets/images/salad.jpg';
+import Breakfast from '../assets/images/breakfast-img.jpg'
+import Lunch from '../assets/images/lunch-img.jpg'
+import Snacks from '../assets/images/snacks-img.jpg'
+import Dinner from '../assets/images/dinner-img.jpg'
+import hello from '../assets/images/breakfast-img.jpg'
 
 const HomePage = () => {
   return (
@@ -31,6 +36,35 @@ const HomePage = () => {
           <a className="explore-btn mt-3 py-1 px-3 z-20" href="/recipes"> Explore </a>
         </div>
       </div>
+
+      {/* Categories */}
+      <section>
+        <p className='text-center py-2 fs-4 lead'>
+          From Sunrise to Supper,<span className='custom-heading py-1'> Real, Actual, Everyday</span> Meals.
+        </p>
+        <p></p>
+        <div className='category-container mb-3 mx-3'>
+          <div className='category-card text-center'>
+            <img src={Breakfast} alt="" className='img-fluid' />
+            <div className='category-title'>Breakfast</div>
+          </div>
+
+          <div className='category-card text-center'>
+            <img src={Lunch} alt="" className='img-fluid' />
+            <div className='category-title'>Lunch</div>
+          </div>
+
+          <div className='category-card text-center'>
+            <img src={Snacks} alt="" className='img-fluid' />
+            <div className='category-title'>Snacks</div>
+          </div>
+
+          <div className='category-card text-center'>
+            <img src={Dinner} alt="" className='img-fluid' />
+            <div className='category-title'>Dinner</div>
+          </div>
+        </div>
+      </section>
 
       <div className="row text-center info-bar p-3 mt-5 bg-light mx-5">
         <div className="col-sm-3">

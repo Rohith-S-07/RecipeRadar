@@ -4,19 +4,20 @@
   font-family: "Poppins" serif;
 }
 
+
 :root {
   --primary: #82b028;
   --secondary: #3a3a3a;
   --ternary: #a6a7a5;
+  --quaternery: #ffc824;
 }
 
 body {
-  background: linear-gradient(to right, #dbffd09a, #f4f4f4);
-  color: white;
+  background: linear-gradient(to right, #e3ffdb9a, #ffffff);
 }
 
 .content-container {
-  padding: 80px 1vw 0 1vw;
+  padding: 75px 0 0 0;
 }
 
 .page-content {
@@ -103,7 +104,6 @@ body {
 
 
 /* Footer CSS */
-
 footer {
   border-radius: 10px 10px 0 0;
   margin-top: 20px;
@@ -111,10 +111,6 @@ footer {
 
 footer .navbar-brand {
   display: block;
-}
-
-.text-muted {
-  color: white !important;
 }
 
 .footer .navbar-brand img{

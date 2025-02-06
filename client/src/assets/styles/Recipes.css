@@ -1,0 +1,122 @@
+.custom-heading2 {
+  font-family: "Pacifico", serif;
+  font-weight: 100;
+  background: linear-gradient(var(--quaternery), #ffc400);
+  background-clip: text;
+  color: transparent;
+}
+
+.text-stroke2 {
+  font-family: "Londrina Shadow", serif;
+  font-weight:600 ;
+  letter-spacing: 2px;
+  background: var(--primary);
+  background-clip: text;
+  color: transparent;
+  font-size: 60px;
+}
+
+.text-custom2{
+  font-family: serif;
+  font-weight: lighter;
+  text-shadow: -0.5px -0.5px 0 var(--secondary);
+  /* background: var(--ternary); */
+  background-clip: text;
+  color: transparent;
+  font-size: 30px;
+}
+
+.recipes-header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--primary);
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.category-section{
+  margin: 0 50px;
+}
+
+.category-section li{
+  color: var(--primary);
+  margin-bottom:5px;
+}
+
+/* Category Styles */
+.category-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 10px;
+  align-items: center;
+}
+
+.category-card {
+  position: relative;
+  width: 180px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.category-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.category-title {
+  font-family: "Pacifico", serif;
+  position: absolute;
+  bottom: -15px;
+  width: fit-content;
+  background: var(--quaternery);
+  border-radius: 3px;
+  color: var(--secondary);
+  padding: 8px 15px;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+/* Tag Styles */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.tag-card {
+  position: relative;
+  width: 100px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.tag-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
+
+.tag-title {
+  /* font-family: "Pacifico", serif; */
+  position: absolute;
+  bottom: -15px;
+  width: fit-content;
+  background: var(--primary);
+  border-radius: 3px;
+  color: white;
+  padding: 2px 5px;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+

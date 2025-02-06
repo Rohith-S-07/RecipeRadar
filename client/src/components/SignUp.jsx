@@ -139,8 +139,8 @@ const SignUp = () => {
       case 'password':
         if (!value.trim()) {
           fieldErrors.password = 'Password is required';
-        } else if (value.length < 8) {
-          fieldErrors.password = 'Password must be at least 8 characters';
+        } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value)) {
+          fieldErrors.password = 'Password must contain at least 8 characters, including 1 letter, 1 number, and 1 special character';
         } else {
           delete fieldErrors.password;
         }
@@ -153,6 +153,7 @@ const SignUp = () => {
           delete fieldErrors.confirmPassword;
         }
         break;
+
 
       case 'profilePicture':
         if (value) {
@@ -257,7 +258,7 @@ const SignUp = () => {
           </div>
 
           <div className="form-group mb-3">
-            <label htmlFor="profilePicture">Upload Profile Picture</label>
+            <label htmlFor="profilePicture">Profile Picture</label>
             <input
               type="file"
               className={`form-control ${errors.profilePicture ? 'is-invalid' : ''}`}

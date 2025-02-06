@@ -4,6 +4,7 @@
   --primary: #82b028;
   --secondary: #3a3a3a;
   --ternary: #a6a7a5;
+  --quaternery: #ffc824;
 }
 
 .custom-navbar {
@@ -78,6 +79,53 @@
   padding: 5px 10px;
 }
 
+.profile-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.profile-button:hover {
+  opacity: 0.8;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  z-index: 1000;
+  padding: 10px 0;
+}
+
+.dropdown-item {
+  padding: 5px 10px;
+  cursor: pointer;
+  display: block;
+  color: black;
+  text-align: left;
+  width: 100%;
+  background: none;
+  border: none;
+}
+
+.dropdown-item:hover {
+  background: #f2f2f2;
+  color: var(--primary);
+}
+
+
 @media (max-width: 990px) {
   .navbar-nav .nav-item:not(:last-child)::after {
     content: " ";
@@ -87,6 +135,12 @@
     width: 100%;
     text-align: center;
     margin-right: 0;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 40px;
+    left: 130px;
   }
 }
 

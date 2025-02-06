@@ -1,0 +1,120 @@
+/* Confirmation Dialog Box Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  outline: none;
+}
+
+.custom-modal {
+  max-width: 700px;
+  z-index: 1100;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: auto;
+  outline: none;
+}
+
+
+.modal-content {
+  border-radius: 0.5rem;
+  outline: none;
+  width: 400px;
+  background-color: white;
+  padding: 15px;
+  color: black;
+}
+
+.modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-header {
+  display: flex;
+  color: var(--primary);
+  justify-content: space-between;
+}
+
+.btn-close {
+  font-size: 1.3rem;
+}
+
+@media (max-width: 576px) {
+  .modal-content {
+    width: 400px;
+  }
+}
+
+/* Notification Styles */
+.custom-notification-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 1rem;
+  color: black;
+}
+
+.custom-notification-modal {
+  max-width: 300px;
+  background-color: white;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  overflow: hidden;
+}
+
+.notification-content {
+  text-align: center;
+}
+
+.notification-content p {
+  margin-bottom: 1rem;
+}
+
+.notification-content button {
+  width: 100%;
+}
+
+/* Progress Bar Styles */
+.progress-bar-container {
+  height: 5px;
+  width: 100%;
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0;
+  background-color: #28a745;
+  animation: fillProgress 1.5s linear forwards;
+}
+
+@keyframes fillProgress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}

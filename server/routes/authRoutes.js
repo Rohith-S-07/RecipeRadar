@@ -26,8 +26,11 @@ const upload = multer({ storage: storage });
 
 // Route to handle user registration with profile picture upload
 router.post('/register', upload.single('profilePicture'), registerUser);
+
 router.post('/login', loginUser);
+
 router.get('/validatesession/:id', validateUserId);
+
 router.get('/profile', authMiddleware, (req, res) => {
   res.json({ user: req.user });
 });

@@ -34,7 +34,7 @@ const ContactUs = () => {
 
   return (
     <div>
-      <div className="row mx-5 mb-2 p-4">
+      <div className="row mb-2 p-4 mx-2">
         <h1 className="custom-heading fs-2 text-center pb-2">We Value Your Feedback</h1>
         <p className="text-start mb-2 text-center">
           Have a question, feedback, or suggestion? Let us know below!
@@ -111,7 +111,7 @@ const ContactUs = () => {
         </div>
       </div>
 
-      <div className="row d-flex align-items-center text-center mx-5">
+      <div className="row d-flex align-items-center text-center mx-2">
         <div className="col-md-6">
           <h3 className='custom-heading fs-4 pb-2'>Find Us</h3>
           <iframe
