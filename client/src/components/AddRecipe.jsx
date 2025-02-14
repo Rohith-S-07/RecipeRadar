@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import config from '../config';
 
@@ -12,13 +12,20 @@ const AddRecipe = ({ handleAddRecipe }) => {
     const [servings, setServings] = useState('');
     const [difficulty, setDifficulty] = useState('');
     const [tags, setTags] = useState([]);
+    const [videoLink, setVideoLink] = useState('');
+
+    const titleRef = useRef(null);
+    const descriptionRef = useRef(null);
+    const cookingTimeRef = useRef(null);
+    const servingsRef = useRef(null);
+    const imageRef = useRef(null);
 
     const predefinedTags = [
         "Breakfast", "Lunch", "Dinner", "Snacks", "Desserts", "Drinks",
         "Vegan", "Vegetarian", "Dairy-Free", "Gluten-Free", "Keto", "Low-Carb",
         "High-Protein", "Low-Calorie", "Balanced", "Fiber-Rich", "Indian",
         "Mexican", "Italian", "Chinese", "Spicy", "Sweet", "Savory",
-        "Fast Food", "Street Food"
+        "Fast Food"
     ];
 
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -32,10 +39,37 @@ const AddRecipe = ({ handleAddRecipe }) => {
         );
     };
 
+    const calculateDifficulty = (time) => {
+        if (time <= 15) return 'Easy';
+        if (time <= 45) return 'Medium';
+        return 'Hard';
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!userID) {
             console.error("User ID not found!");
+            return;
+        }
+
+        if (!title.trim()) {
+            titleRef.current.focus();
+            return;
+        }
+        if (!description.trim()) {
+            descriptionRef.current.focus();
+            return;
+        }
+        if (!cookingTime) {
+            cookingTimeRef.current.focus();
+            return;
+        }
+        if (!servings) {
+            servingsRef.current.focus();
+            return;
+        }
+        if (!image) {
+            imageRef.current.focus();
             return;
         }
 
@@ -44,9 +78,10 @@ const AddRecipe = ({ handleAddRecipe }) => {
         formData.append('description', description);
         formData.append('cookingTime', cookingTime);
         formData.append('servings', servings);
-        formData.append('difficulty', difficulty);
+        formData.append('difficulty', calculateDifficulty(cookingTime));
         formData.append('image', image);
         formData.append('author', userID);
+        formData.append('videoLink', videoLink);
 
         ingredients.forEach((ingredient, index) => {
             formData.append(`ingredients[${index}][name]`, ingredient.name);
@@ -127,11 +162,16 @@ const AddRecipe = ({ handleAddRecipe }) => {
                     <button type="button" className="btn btn-outline-primary btn-sm mt-2" onClick={() => setSteps([...steps, ''])}>+ Add Step</button>
                 </div>
 
-                {/* Cooking Time, Servings, Difficulty - Inline */}
+                {/* Cooking Time, Servings, Difficulty */}
                 <div className="row">
                     <div className="col-sm-4">
                         <label className="form-label">Cooking Time (min)</label>
-                        <input type="number" className="form-control" value={cookingTime} onChange={(e) => setCookingTime(Math.max(1, parseInt(e.target.value) || 1))} required />
+                        <input type="number" className="form-control" value={cookingTime}
+                            onChange={(e) => {
+                                const time = Math.max(1, parseInt(e.target.value) || 1);
+                                setCookingTime(time);
+                                setDifficulty(calculateDifficulty(time));
+                            }} required />
                     </div>
                     <div className="col-sm-4">
                         <label className="form-label">Servings</label>
@@ -139,12 +179,7 @@ const AddRecipe = ({ handleAddRecipe }) => {
                     </div>
                     <div className="col-sm-4">
                         <label className="form-label">Difficulty</label>
-                        <select className="form-select" value={difficulty} onChange={(e) => setDifficulty(e.target.value)} required>
-                            <option value="">Select</option>
-                            <option value="Easy">Easy</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Hard">Hard</option>
-                        </select>
+                        <input type="text" className="form-control" value={difficulty} disabled />
                     </div>
                 </div>
 
@@ -170,16 +205,22 @@ const AddRecipe = ({ handleAddRecipe }) => {
                     </div>
                 </div>
 
-
                 {/* Image Upload */}
                 <div className="mb-3">
                     <label className="form-label">Upload Image</label>
                     <input type="file" className="form-control" accept="image/*" onChange={(e) => setImage(e.target.files[0])} required />
                 </div>
 
+                {/* YouTube Video Link */}
+                <div className="mb-3">
+                    <label className="form-label">YouTube Video Link (Optional)</label>
+                    <input type="url" className="form-control" value={videoLink} onChange={(e) => setVideoLink(e.target.value)} placeholder="Enter YouTube video URL" />
+                </div>
+
                 <button type="submit" className="btn btn-primary w-100 mb-3">Submit Recipe</button>
             </form>
         </div>
+
     );
 };
 

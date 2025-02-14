@@ -1,0 +1,55 @@
+import React, { useEffect, useState } from "react";
+import { BsChevronDoubleDown } from "react-icons/bs";
+
+const SearchModal = ({ show, onClose }) => {
+    const [modalHeight, setModalHeight] = useState("90dvh");
+
+    useEffect(() => {
+        if (show) {
+            document.body.style.overflow = "hidden"; // Disable background scrolling
+        } else {
+            document.body.style.overflow = ""; // Enable scrolling when modal closes
+        }
+
+        const adjustModalHeight = () => {
+            const viewportHeight = window.innerHeight;
+            setModalHeight(`${viewportHeight * 0.9}px`);
+        };
+
+        adjustModalHeight(); // Set on mount
+        window.addEventListener("resize", adjustModalHeight);
+
+        return () => {
+            window.removeEventListener("resize", adjustModalHeight);
+        };
+    }, [show]);
+
+    return (
+        <div className={`search-modal ${show ? "show" : ""}`} onClick={onClose}>
+
+            <div
+                className="search-modal-content"
+                style={{ height: modalHeight }}
+                onClick={(e) => e.stopPropagation()}
+            >
+                <button className="btn close-btn" onClick={onClose}>
+                    <BsChevronDoubleDown />
+                </button>
+                <div className="d-flex justify-content-between align-items-center">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search recipes..."
+                        autoFocus
+                        onFocus={() => window.scrollTo(0, 0)} // Keeps input visible
+                    />
+                </div>
+                <div className="search-results mt-3">
+                    <p className="text-muted text-center">Start typing to search...</p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default SearchModal;

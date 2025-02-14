@@ -34,6 +34,7 @@ const NavBar = () => {
     // Close Navbar when clicking a link (Mobile View)
     const closeNavbar = () => {
         setNavbarOpen(false);
+        setDropdownOpen(false)
         document.getElementById("navbarNav").classList.remove("show");
     };
 
@@ -54,7 +55,6 @@ const NavBar = () => {
         <>
             <nav className="navbar navbar-expand-lg custom-navbar fixed-top">
                 <div className="container-fluid">
-                    {/* Logo */}
                     <NavLink 
                         className="navbar-brand d-flex align-items-center" 
                         to="/" 
@@ -115,7 +115,7 @@ const NavBar = () => {
                                                 className="dropdown-item" 
                                                 onClick={() => {
                                                     closeNavbar();
-                                                    navigate('/addrecipe');
+                                                    navigate('/recipes/addrecipe');
                                                 }} 
                                             >
                                                 <CiCirclePlus className="me-2 mb-1 fs-4" />

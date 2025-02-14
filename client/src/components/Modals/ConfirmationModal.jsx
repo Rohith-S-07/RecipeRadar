@@ -25,7 +25,7 @@ const ConfirmationModal = ({ isOpen, onRequestClose, onConfirm, message }) => {
           <p>{message}</p>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-success m-2" onClick={handleConfirm}>Yes</button>
+          <button type="button" className="btn btn-confirm m-2" onClick={handleConfirm}>Yes</button>
           <button type="button" className="btn btn-secondary" onClick={onRequestClose}>No</button>
         </div>
       </div>

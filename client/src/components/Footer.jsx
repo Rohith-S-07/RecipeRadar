@@ -36,7 +36,7 @@ const Footer = () => {
         </div>
         <div className="col mb-3 fs-4">
           <a href="#" className="text-decoration-none text-muted">
-            <i class="fa-brands fa-github me-4"></i>
+            <i className="fa-brands fa-github me-4"></i>
           </a>
           <a href="#" className="text-decoration-none text-muted">
             <i className="fab fa-x-twitter me-4"></i>

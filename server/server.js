@@ -19,7 +19,7 @@ const recipeRoutes = require('./routes/recipeRoutes');
 
 // Routes
 app.use('/auth', authRoutes);
-app.use('/recipes', recipeRoutes); // Add recipe routes
+app.use('/recipes', recipeRoutes);
 
 app.use(errorHandler);
 

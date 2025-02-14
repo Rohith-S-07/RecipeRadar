@@ -9,8 +9,9 @@ import ContactUs from './components/ContactUs'
 import SignIn from './components/SignIn'
 import Recipes from './components/Recipes'
 import SignUp from './components/SignUp'
-import Sample from './components/Sample'
+import ViewCategory from './components/ViewCategory'
 import AddRecipe from './components/AddRecipe'
+import ViewRecipe from './components/ViewRecipe'
 import NotificationModal from './components/Modals/NotificationModal'
 
 import './assets/styles/Main.css'
@@ -31,13 +32,13 @@ const TokenHandler = () => {
     if (token) {
       try {
         const decoded = jwtDecode(token)
-        const currentTime = Date.now() / 1000 // Convert to seconds
+        const currentTime = Date.now() / 1000
         if (decoded.exp < currentTime) {
-          setIsModalOpen(true) // Show modal
+          setIsModalOpen(true)
           setTimeout(() => {
             setIsModalOpen(false)
             localStorage.clear()
-            navigate('/signin') // Redirect to Sign In
+            navigate('/signin')
           }, 1500)
         }
       } catch (error) {
@@ -68,14 +69,15 @@ function App() {
     <Router>
       <TokenHandler /> {/* Token check at the start */}
       <Routes>
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/" element={<Layout><HomePage /></Layout>} />
-        <Route path="/recipes/sample" element={<Layout><Sample /></Layout>} />
-        <Route path="/recipes" element={<Layout><Recipes /></Layout>} />
         <Route path="/about" element={<Layout><AboutUs /></Layout>} />
         <Route path="/contact" element={<Layout><ContactUs /></Layout>} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/addrecipe" element={<Layout><AddRecipe /></Layout>} />
+        <Route path="/recipes" element={<Layout><Recipes /></Layout>} />
+        <Route path="/recipes/:category" element={<Layout><ViewCategory /></Layout>} />
+        <Route path="/recipes/addrecipe" element={<Layout><AddRecipe /></Layout>} />
+        <Route path="/recipes/:id" element={<Layout><ViewRecipe /></Layout>} />
       </Routes>
     </Router>
   )

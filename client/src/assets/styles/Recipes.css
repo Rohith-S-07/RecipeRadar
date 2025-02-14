@@ -40,7 +40,7 @@
 }
 
 .category-section li{
-  color: var(--primary);
+  color: transparent;
   margin-bottom:5px;
 }
 
@@ -116,7 +116,50 @@
   color: white;
   padding: 2px 5px;
   font-size: 12px;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 
 
+/* Search Results */
+.search-recipe-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.search-recipe-card {
+  position: relative;
+  background-color: white;
+  width: 170px;
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 2px rgb(128, 128, 128);
+  overflow: hidden;
+}
+
+.search-recipe-card img {
+  display: block;
+  width: 170px;
+  margin: 0 auto;
+  height: 200px;
+}
+
+.search-recipe-title {
+  margin: 0 auto;
+  margin-top: 5px;
+  width: fit-content;
+  padding: 2px 5px;
+  font-size: 18px;
+}
+
+.search-rating{
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: white;
+  padding: 5px;
+  border-bottom-left-radius: 15px;
+}
