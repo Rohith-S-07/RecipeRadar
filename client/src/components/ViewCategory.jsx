@@ -1,15 +1,34 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import categoriesData from '../data/categoriesData'; // Import category data
-import hello from '../assets/images/salad.jpg'
-
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import categoriesData from '../data/categoriesData';
+import config from '../config'
+import LottiePlayer from './LottiePlayer';
 
 const ViewCategory = () => {
-    const { category } = useParams(); // Get category from URL
-    const formattedCategory = category.charAt(0).toUpperCase() + category.slice(1); // Capitalize first letter
+    const { category } = useParams();
+    const navigate = useNavigate();
+    const formattedCategory = category.charAt(0).toUpperCase() + category.slice(1);
+
+
+    const [recipes, setRecipes] = useState([]);
 
     // Find the category data from the imported file
     const categoryData = categoriesData.find(cat => cat.name.toLowerCase() === category.toLowerCase());
+
+    useEffect(() => {
+        const fetchRecipes = async () => {
+            try {
+                const response = await axios.get(`${config.BASE_URL}/recipes/category/${category}`);
+                const filteredRecipes = response.data.filter(recipe => recipe.tags.includes(category));
+                setRecipes(filteredRecipes);
+            } catch (error) {
+                console.error("Error fetching recipes:", error);
+            }
+        };
+
+        fetchRecipes();
+    }, [category]);
 
     return (
         <>
@@ -17,7 +36,7 @@ const ViewCategory = () => {
                 <div className="col-md-4 d-flex align-items-center flex-column">
                     {categoryData ? (
                         <img
-                            src={categoryData.image}
+                            src={`/src/assets${categoryData.image}`}
                             alt={categoryData.name}
                             className="img-fluid type-img"
                         />
@@ -50,32 +69,52 @@ const ViewCategory = () => {
                     TOP RATED {formattedCategory.toUpperCase()} RECIPES
                 </p>
                 <div className='recipe-container mb-2 mx-5'>
-                    <div className='recipe-card text-center'>
-                        {categoryData && <img src={categoryData.image} alt={categoryData.name} className='img-fluid' />}
-                        <div className='text-warning ratings'>
-                            <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star"></i>
-                            <span className='text-dark'> 4.2</span>
+                    {recipes.length > 0 ? (
+                        recipes.slice(0, 3).map(recipe => (
+                            <div key={recipe._id} className='recipe-card text-center'
+                                onClick={() => navigate(`/recipes/view/${recipe._id}`)}
+                                style={{ cursor: "pointer" }}
+                            >
+                                <img src={`${config.BASE_URL}${recipe.image}`} alt={recipe.title} className='img-fluid' />
+                                <div className='text-warning ratings'>
+                                    <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
+                                    <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
+                                    <i className="fa-regular fa-star"></i>
+                                    <span className='text-dark'> 4.2</span>
+                                </div>
+                                <div className='recipe-title'>{recipe.title}</div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="text-center">
+                            <LottiePlayer src="https://lottie.host/f287ac77-eba7-4bc3-b689-e36b89592fbe/xILdJ5522u.lottie" />
+                            No recipes available for this category.
                         </div>
-                        <div className='recipe-title'>Chocolate Pancake</div>
-                    </div>
+                    )}
                 </div>
             </section>
 
-            <section className='all-recipe-section'>
+            {/* <section className='all-recipe-section'>
                 <p className='text-stroke2 fs-1 text-center'> ALL {formattedCategory.toUpperCase()} RECIPES</p>
                 <div className='recipe-container mx-5'>
-                    <div className='recipe-card text-center'>
-                        <img src={hello} alt="" className='img-fluid' />
-                        <div className='text-warning ratings'>
-                            <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-regular fa-star"></i>
-                            <span className='text-dark'> 4.2</span>
-                        </div>
-                        <div className='recipe-title'>Chocolate Pancake</div>
-                    </div>
+                    {recipes.length > 0 ? (
+                        recipes.map(recipe => (
+                            <div key={recipe._id} className='recipe-card text-center'>
+                                <img src={recipe.image} alt={recipe.title} className='img-fluid' />
+                                <div className='text-warning ratings'>
+                                    <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
+                                    <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
+                                    <i className="fa-regular fa-star"></i>
+                                    <span className='text-dark'> 4.2</span>
+                                </div>
+                                <div className='recipe-title'>{recipe.title}</div>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-center">No recipes found in this category.</p>
+                    )}
                 </div>
-            </section>
+            </section> */}
         </>
     );
 };

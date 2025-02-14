@@ -1,11 +1,11 @@
 import React from 'react';
 import CookImg from '../assets/images/cookImg.jpg';
 import Salad from '../assets/images/salad.jpg';
-import Breakfast from '../assets/images/breakfast-img.jpg'
-import Lunch from '../assets/images/lunch-img.jpg'
-import Snacks from '../assets/images/snacks-img.jpg'
-import Dinner from '../assets/images/dinner-img.jpg'
-import hello from '../assets/images/breakfast-img.jpg'
+import Breakfast from '../assets/category-images/breakfast.jpg'
+import Lunch from '../assets/category-images/lunch.jpg'
+import Snacks from '../assets/category-images/snacks.jpg'
+import Dinner from '../assets/category-images/dinner.jpg'
+import hello from '../assets/images/salad.jpg'
 
 const HomePage = () => {
   return (
@@ -33,7 +33,7 @@ const HomePage = () => {
           <p>Cooking is more than just sustenance; it's an act of self-care.
             A thoughtfully prepared meal nourishes the body, but it also comforts the soul.
             Step into the kitchen, and let every recipe become a moment of mindfulness and joy.</p>
-          <a className="explore-btn mt-3 py-1 px-3 z-20" href="/recipes"> Explore </a>
+          <a className="explore-btn mt-3 py-1 px-3 rounded" href="/recipes"> Explore </a>
         </div>
       </div>
 
@@ -44,25 +44,33 @@ const HomePage = () => {
         </p>
         <p></p>
         <div className='category-container mb-3 mx-3'>
-          <div className='category-card text-center'>
-            <img src={Breakfast} alt="" className='img-fluid' />
-            <div className='category-title'>Breakfast</div>
-          </div>
+          <a href="/recipes/Breakfast" className="text-decoration-none text-dark">
+            <div className='category-card text-center'>
+              <img src={Breakfast} alt="" className='img-fluid' />
+              <div className='category-title'>Breakfast</div>
+            </div>
+          </a>
 
-          <div className='category-card text-center'>
-            <img src={Lunch} alt="" className='img-fluid' />
-            <div className='category-title'>Lunch</div>
-          </div>
+          <a href="/recipes/Lunch" className="text-decoration-none text-dark">
+            <div className='category-card text-center'>
+              <img src={Lunch} alt="" className='img-fluid' />
+              <div className='category-title'>Lunch</div>
+            </div>
+          </a>
 
-          <div className='category-card text-center'>
-            <img src={Snacks} alt="" className='img-fluid' />
-            <div className='category-title'>Snacks</div>
-          </div>
+          <a href="/recipes/Snacks" className="text-decoration-none text-dark">
+            <div className='category-card text-center'>
+              <img src={Snacks} alt="" className='img-fluid' />
+              <div className='category-title'>Snacks</div>
+            </div>
+          </a>
 
-          <div className='category-card text-center'>
-            <img src={Dinner} alt="" className='img-fluid' />
-            <div className='category-title'>Dinner</div>
-          </div>
+          <a href="/recipes/Dinner" className="text-decoration-none text-dark">
+            <div className='category-card text-center'>
+              <img src={Dinner} alt="" className='img-fluid' />
+              <div className='category-title'>Dinner</div>
+            </div>
+          </a>
         </div>
       </section>
 
@@ -76,11 +84,11 @@ const HomePage = () => {
           <p>Recipes Shared</p>
         </div>
         <div className="col-sm-3">
-          <h2>10+</h2>
+          <h2>20+</h2>
           <p>Recipe Categories</p>
         </div>
         <div className="col-sm-3">
-          <h2>1,000</h2>
+          <h2>1,000+</h2>
           <p>Community Interactions</p>
         </div>
       </div>

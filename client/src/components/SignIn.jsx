@@ -52,6 +52,8 @@ const SignIn = () => {
     if (validateForm()) {
       try {
         const response = await API.post('/auth/login', { email, password });
+
+        // Store user data with profile picture in localStorage
         localStorage.setItem('authToken', response.data.token);
         localStorage.setItem('userData', JSON.stringify(response.data.user));
 

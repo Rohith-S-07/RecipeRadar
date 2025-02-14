@@ -18,6 +18,7 @@ import './assets/styles/Main.css'
 import './assets/styles/Recipes.css'
 import './assets/styles/Categories.css'
 import './assets/styles/DialogBoxes.css'
+import './assets/styles/NavBar.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -75,9 +76,9 @@ function App() {
         <Route path="/about" element={<Layout><AboutUs /></Layout>} />
         <Route path="/contact" element={<Layout><ContactUs /></Layout>} />
         <Route path="/recipes" element={<Layout><Recipes /></Layout>} />
-        <Route path="/recipes/:category" element={<Layout><ViewCategory /></Layout>} />
         <Route path="/recipes/addrecipe" element={<Layout><AddRecipe /></Layout>} />
-        <Route path="/recipes/:id" element={<Layout><ViewRecipe /></Layout>} />
+        <Route path="/recipes/:category" element={<Layout><ViewCategory /></Layout>} />
+        <Route path="/recipes/view/:id" element={<Layout><ViewRecipe /></Layout>} />
       </Routes>
     </Router>
   )

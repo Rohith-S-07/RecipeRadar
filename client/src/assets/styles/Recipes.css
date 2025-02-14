@@ -8,7 +8,7 @@
 
 .text-stroke2 {
   font-family: "Londrina Shadow", serif;
-  font-weight:600 ;
+  font-weight: 600;
   letter-spacing: 2px;
   background: var(--primary);
   background-clip: text;
@@ -16,32 +16,33 @@
   font-size: 60px;
 }
 
-.text-custom2{
+.text-custom2 {
   font-family: serif;
   font-weight: lighter;
-  text-shadow: -0.5px -0.5px 0 var(--secondary);
-  /* background: var(--ternary); */
+  text-shadow: -0.5px -0.5px 1px rgba(255, 255, 0, 0.6);
+  background: var(--primary);
   background-clip: text;
-  color: transparent;
+  color: var(--quaternery);
   font-size: 30px;
 }
 
-.recipes-header{
+.recipes-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: var(--primary);
   padding: 10px 20px;
   border-radius: 10px;
+  text-align: justify;
 }
 
-.category-section{
+.category-section {
   margin: 0 50px;
 }
 
-.category-section li{
+.category-section li {
   color: transparent;
-  margin-bottom:5px;
+  margin-bottom: 5px;
 }
 
 /* Category Styles */
@@ -82,6 +83,15 @@
   letter-spacing: 1px;
 }
 
+.category-box {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 20px 0 0 0;
+  margin-bottom: 30px;
+  background-color: white;
+  box-shadow: 0.5px 0.5px 3px gray;
+}
+
 /* Tag Styles */
 .tag-container {
   display: flex;
@@ -92,7 +102,7 @@
 
 .tag-card {
   position: relative;
-  width: 100px;
+  width: 140px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -115,10 +125,9 @@
   border-radius: 3px;
   color: white;
   padding: 2px 5px;
-  font-size: 12px;
+  font-size: 16px;
   /* letter-spacing: 1px; */
 }
-
 
 /* Search Results */
 .search-recipe-container {
@@ -135,8 +144,8 @@
   width: 170px;
   text-align: center;
   margin-bottom: 15px;
-  border-radius: 10px;
-  box-shadow: 1px 1px 2px rgb(128, 128, 128);
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgb(128, 128, 128);
   overflow: hidden;
 }
 
@@ -155,11 +164,31 @@
   font-size: 18px;
 }
 
-.search-rating{
+.search-rating {
   position: absolute;
   top: 0;
   right: 0;
   background-color: white;
   padding: 5px;
   border-bottom-left-radius: 15px;
+}
+
+/* View Recipe Page*/
+.recipe-page {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0 0 2px gray;
+  position: relative;
+}
+
+.recipe-page-img {
+  height: 250px !important;
+  border: 4px solid var(--ternary);
+  border-radius: 50%;
+}
+
+.wishlist-btn {
+  position: absolute;
+  right: 20px;
 }

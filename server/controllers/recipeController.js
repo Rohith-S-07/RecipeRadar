@@ -92,4 +92,22 @@ const getRecipeById = async (req, res) => {
     }
 };
 
-module.exports = { addRecipe, getRecipes, searchRecipes, getRecipeById };
+// Get recipes by category (based on tags)
+const getRecipesByCategory = async (req, res) => {
+    try {
+        const { category } = req.params;
+
+        // Find recipes where tags contain the category (case-insensitive)
+        const recipes = await Recipe.find({
+            tags: { $regex: category, $options: "i" }
+        });
+
+        res.status(200).json(recipes);
+    } catch (error) {
+        console.error("Error fetching category recipes:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+module.exports = { addRecipe, getRecipes, searchRecipes, getRecipeById, getRecipesByCategory };

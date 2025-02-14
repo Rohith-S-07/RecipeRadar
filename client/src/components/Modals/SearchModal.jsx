@@ -3,7 +3,7 @@ import { BsChevronDoubleDown } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import config from '../../config';
-import MagnifierLottie from "../MagnifierLottie";
+import LottiePlayer from "../LottiePlayer";
 
 const SearchModal = ({ show, onClose }) => {
     const [modalHeight, setModalHeight] = useState("90dvh");
@@ -78,7 +78,7 @@ const SearchModal = ({ show, onClose }) => {
                 <div className="search-results mt-3">
                     {recipes.length === 0 ? (
                         <div className="text-muted text-center">
-                            <MagnifierLottie src="https://lottie.host/f287ac77-eba7-4bc3-b689-e36b89592fbe/xILdJ5522u.lottie" />
+                            <LottiePlayer src="https://lottie.host/f287ac77-eba7-4bc3-b689-e36b89592fbe/xILdJ5522u.lottie" />
                             <br />
                             No recipes found.
                             </div>
@@ -88,7 +88,7 @@ const SearchModal = ({ show, onClose }) => {
                                 <div key={recipe._id} className="mb-3">
                                     <div
                                         className="search-recipe-card text-center"
-                                        onClick={() => navigate(`/recipes/${recipe._id}`)}
+                                        onClick={() => navigate(`/recipes/view/${recipe._id}`)}
                                         style={{ cursor: "pointer" }}
                                     >
                                         <img src={`${config.BASE_URL}${recipe.image}`} alt={recipe.title} className="img-fluid" />

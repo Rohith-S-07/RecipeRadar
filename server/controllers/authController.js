@@ -52,7 +52,7 @@ const loginUser = async (req, res) => {
 
     // Create JWT token
     const token = jwt.sign(
-      { id: user._id, email: user.email, name: user.name },
+      { id: user._id, email: user.email, name: user.name, profilePicture: user.profilePicture }, // Include profile picture in token payload
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
@@ -60,7 +60,12 @@ const loginUser = async (req, res) => {
     res.status(200).json({
       message: 'Login successful',
       token,
-      user: { id: user._id, email: user.email, name: user.name },
+      user: { 
+        id: user._id, 
+        email: user.email, 
+        name: user.name, 
+        profilePicture: user.profilePicture // Include profile picture in response
+      },
     });
 
   } catch (error) {

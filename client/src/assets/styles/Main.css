@@ -4,6 +4,9 @@
   font-family: "Poppins" serif;
 }
 
+*::-webkit-scrollbar{
+  display: none;
+}
 
 :root {
   --primary: #82b028;
@@ -15,6 +18,7 @@
 body {
   background: linear-gradient(to right, #e3ffdb9a, #ffffff);
 }
+
 
 .content-container {
   padding: 75px 0 0 0;

@@ -4,11 +4,12 @@ import { FaUserCircle } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
 import { CiCirclePlus } from "react-icons/ci";
 import { MdOutlineChat } from "react-icons/md";
+import config from "../config";
 
-import RecipeLogo from "../assets/images/recipe-radar-new.png";
 import NotificationModal from "./Modals/NotificationModal";
 import ConfirmationModal from "./Modals/ConfirmationModal";
-import "../assets/styles/NavBar.css";
+
+import RecipeLogo from "../assets/images/recipe-radar-new.png";
 
 const NavBar = () => {
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ const NavBar = () => {
         localStorage.removeItem("userData");
         setUser(null);
         setDropdownOpen(false);
-        setShowNotification(true); 
+        setShowNotification(true);
         setTimeout(() => {
             closeNavbar(); // Close navbar
             navigate("/signin");
@@ -55,9 +56,9 @@ const NavBar = () => {
         <>
             <nav className="navbar navbar-expand-lg custom-navbar fixed-top">
                 <div className="container-fluid">
-                    <NavLink 
-                        className="navbar-brand d-flex align-items-center" 
-                        to="/" 
+                    <NavLink
+                        className="navbar-brand d-flex align-items-center"
+                        to="/"
                         onClick={closeNavbar}
                     >
                         <img src={RecipeLogo} alt="RR" />
@@ -105,18 +106,22 @@ const NavBar = () => {
                                 <div className="profile-dropdown">
                                     <div className="profile-button" onClick={toggleDropdown}>
                                         <span className="me-2">Hi, {user.name}</span>
-                                        <FaUserCircle size={30} />
+                                        <img
+                                            src={`${config.BASE_URL}/${user.profilePicture}`}
+                                            alt="Profile"
+                                            className="profile-image"
+                                        />
                                     </div>
 
                                     {/* Dropdown Menu */}
                                     {dropdownOpen && (
                                         <div className="dropdown-menu show">
-                                            <button 
-                                                className="dropdown-item" 
+                                            <button
+                                                className="dropdown-item"
                                                 onClick={() => {
                                                     closeNavbar();
                                                     navigate('/recipes/addrecipe');
-                                                }} 
+                                                }}
                                             >
                                                 <CiCirclePlus className="me-2 mb-1 fs-4" />
                                                 Add Recipe
