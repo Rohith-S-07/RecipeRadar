@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import config from '../config';
+import NotificationModal from './Modals/NotificationModal';
 
 const AddRecipe = ({ handleAddRecipe }) => {
     const [title, setTitle] = useState('');
@@ -13,6 +14,7 @@ const AddRecipe = ({ handleAddRecipe }) => {
     const [difficulty, setDifficulty] = useState('');
     const [tags, setTags] = useState([]);
     const [videoLink, setVideoLink] = useState('');
+    const [notification, setNotification] = useState({ isOpen: false, message: '' });
 
     const titleRef = useRef(null);
     const descriptionRef = useRef(null);
@@ -43,6 +45,19 @@ const AddRecipe = ({ handleAddRecipe }) => {
         if (time <= 15) return 'Easy';
         if (time <= 45) return 'Medium';
         return 'Hard';
+    };
+
+    const clearForm = () => {
+        setTitle('');
+        setDescription('');
+        setIngredients([{ name: '', quantity: '' }]);
+        setSteps(['']);
+        setImage(null);
+        setCookingTime('');
+        setServings('');
+        setDifficulty('');
+        setTags([]);
+        setVideoLink('');
     };
 
     const handleSubmit = async (e) => {
@@ -103,8 +118,14 @@ const AddRecipe = ({ handleAddRecipe }) => {
             });
             console.log("Recipe added successfully:", response.data);
             handleAddRecipe(response.data.recipe);
+
+            // Show success notification
+            setNotification({ isOpen: true, message: 'Recipe added successfully!' });
+            clearForm();
+
         } catch (error) {
             console.error("Error adding recipe:", error);
+            setNotification({ isOpen: true, message: 'Failed to add recipe. Try again!' });
         }
     };
 
@@ -219,6 +240,13 @@ const AddRecipe = ({ handleAddRecipe }) => {
 
                 <button type="submit" className="btn btn-primary w-100 mb-3">Submit Recipe</button>
             </form>
+
+            {/* Notification Modal */}
+            <NotificationModal
+                isOpen={notification.isOpen}
+                onRequestClose={() => setNotification({ isOpen: false, message: '' })}
+                message={notification.message}
+            />
         </div>
 
     );

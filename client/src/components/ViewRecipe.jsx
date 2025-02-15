@@ -46,11 +46,11 @@ const ViewRecipe = () => {
                 </div>
 
                 <div className="col-md-7 mt-3 text-center">
-                    <h1 className='text-custom'>{recipe.title}</h1>
+                    <h1 className='text-custom pb-4'>{recipe.title}</h1>
                     <p className='text-dark ps-3'>
                         {recipe.description}
                     </p>
-                    <h3 className='text-custom2 ps-3 fs-4'>Author Name</h3>
+                    {/* <h3 className='text-custom2 ps-3 fs-4'>Author Name</h3> */}
                     <div className='text-warning ratings'>
                         <span className='text-dark me-2'> 4.2</span>
                         <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
