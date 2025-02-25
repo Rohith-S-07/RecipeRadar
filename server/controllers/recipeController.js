@@ -1,23 +1,109 @@
+const axios = require('axios');
 const Recipe = require("../models/Recipe");
+const qs = require('qs');
 
-// Add a new recipe
+const SPOONACULAR_API_KEY = '5fab7b46f2964aef89cf3c2eedb990a5';
+
+const getNutritionData = async (ingredients) => {
+    try {
+        if (!Array.isArray(ingredients) || ingredients.length === 0) {
+            console.error("Invalid ingredients format:", ingredients);
+            return null;
+        }
+
+        console.log("Processing Ingredients:", ingredients);
+
+        // Convert ingredients into Spoonacular API format
+        const ingredientList = ingredients
+            .map(ing => {
+                if (!ing.quantity || !ing.name) {
+                    console.warn("Skipping invalid ingredient:", ing);
+                    return null;
+                }
+                return `${ing.quantity} ${ing.name}`;
+            })
+            .filter(Boolean) // Remove null/undefined values
+            .join('\n'); // Spoonacular expects newline-separated values
+
+        if (!ingredientList) {
+            console.error("No valid ingredients to process.");
+            return null;
+        }
+
+        console.log("Formatted Ingredient List:", ingredientList);
+
+        // Make API request to parse ingredients and fetch nutrition
+        const response = await axios({
+            method: 'post',
+            url: `https://api.spoonacular.com/recipes/parseIngredients`,
+            data: qs.stringify({ // Convert to x-www-form-urlencoded format
+                ingredientList: ingredientList,
+                servings: 1,
+                includeNutrition: true
+            }),
+            headers: { 
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            params: { apiKey: SPOONACULAR_API_KEY }
+        });
+
+        let nutrition = {
+            calories: 0,
+            protein: 0,
+            carbohydrates: 0,
+            fat: 0,
+            sugar: 0,
+            fiber: 0,
+            sodium: 0,
+            calcium: 0,
+            iron: 0
+        };
+
+        response.data.forEach(ing => {
+            if (ing.nutrition) {
+                ing.nutrition.nutrients.forEach(nutrient => {
+                    switch (nutrient.name.toLowerCase()) {
+                        case 'calories': nutrition.calories += nutrient.amount; break;
+                        case 'protein': nutrition.protein += nutrient.amount; break;
+                        case 'carbohydrates': nutrition.carbohydrates += nutrient.amount; break;
+                        case 'fat': nutrition.fat += nutrient.amount; break;
+                        case 'sugar': nutrition.sugar += nutrient.amount; break;
+                        case 'fiber': nutrition.fiber += nutrient.amount; break;
+                        case 'sodium': nutrition.sodium += nutrient.amount; break;
+                        case 'calcium': nutrition.calcium += nutrient.amount; break;
+                        case 'iron': nutrition.iron += nutrient.amount; break;
+                    }
+                });
+            }
+        });
+
+        console.log("Fetched Nutrition Data:", nutrition);
+        return nutrition;
+
+    } catch (error) {
+        console.error("Error fetching nutrition data:", error.response?.data || error.message);
+        return null;
+    }
+};
+
 const addRecipe = async (req, res) => {
     try {
         const { title, description, cookingTime, servings, difficulty, tags } = req.body;
-
-        // Ensure ingredients and steps are parsed correctly
         const ingredients = typeof req.body.ingredients === "string" ? JSON.parse(req.body.ingredients) : req.body.ingredients;
         const steps = typeof req.body.steps === "string" ? JSON.parse(req.body.steps) : req.body.steps;
 
-        const author = req.user.id; // Authenticated user ID
+        const authorID = req.user.id;
+        const authorName = req.user.name;
         const image = req.file ? `/uploads/${req.file.filename}` : "";
 
-        // Validation: Ensure all required fields are filled
         if (!title || !description || !ingredients.length || !steps.length || !cookingTime || !servings || !difficulty) {
             return res.status(400).json({ message: "Please fill all required fields" });
         }
 
-        // Create new recipe object
+        console.log("Received Ingredients:", ingredients);
+
+        const nutrition = await getNutritionData(ingredients) || {};
+
         const newRecipe = new Recipe({
             title,
             description,
@@ -27,11 +113,14 @@ const addRecipe = async (req, res) => {
             servings,
             difficulty,
             tags,
-            author,
+            authorID,
+            authorName,
             image,
+            nutrition
         });
 
-        // Save to database
+        console.log("Final Recipe Object:", newRecipe);
+
         await newRecipe.save();
         res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
 
@@ -44,7 +133,7 @@ const addRecipe = async (req, res) => {
 // Get all recipes
 const getRecipes = async (req, res) => {
     try {
-        const recipes = await Recipe.find().populate("author", "name");
+        const recipes = await Recipe.find().populate("authorID", "name");
         res.status(200).json(recipes);
     } catch (error) {
         console.error("Error fetching recipes:", error);
@@ -79,7 +168,7 @@ const searchRecipes = async (req, res) => {
 const getRecipeById = async (req, res) => {
     try {
         const { id } = req.params;
-        const recipe = await Recipe.findById(id).populate("author", "name");
+        const recipe = await Recipe.findById(id).populate("authorID", "name");
 
         if (!recipe) {
             return res.status(404).json({ message: "Recipe not found" });

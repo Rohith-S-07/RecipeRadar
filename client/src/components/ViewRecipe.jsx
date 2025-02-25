@@ -31,37 +31,43 @@ const ViewRecipe = () => {
 
 
     return (
-        <div className="recipe-page m-3 p-4">
+        <div className="recipe-page m-3 p-3">
             <span className="wishlist-btn">
-                <FaHeart  className="text-danger fs-2"/>
+                <FaHeart className="text-danger fs-2" />
             </span>
-            <section className="row m-0 mb-2 align-items-center">
-                <div className="col-md-5 d-flex align-items-center flex-column">
+            <section className="row mb-2 align-items-center justify-content-between">
+                <div className="col-md-5 d-flex flex-column">
                     <img
                         src={`${config.BASE_URL}${recipe.image}`}
                         alt={recipe.title}
                         className="img-fluid rounded shadow recipe-page-img"
-                        style={{ maxWidth: "500px", height: "auto" }}
                     />
                 </div>
 
                 <div className="col-md-7 mt-3 text-center">
-                    <h1 className='text-custom pb-4'>{recipe.title}</h1>
-                    <p className='text-dark ps-3'>
-                        {recipe.description}
-                    </p>
-                    {/* <h3 className='text-custom2 ps-3 fs-4'>Author Name</h3> */}
+                    <h1 className='text-custom pb-3'>{recipe.title}</h1>
+                    <h3 className='fw-light ps-3 fs-5'>{recipe.authorName || 'Anonymous'}</h3>
+                    <p className="text-secondary fs-6">{new Date(recipe.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    })}</p>
                     <div className='text-warning ratings'>
-                        <span className='text-dark me-2'> 4.2</span>
+                        <b className='text-dark me-2'> 4.2</b>
                         <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
                         <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
                         <i className="fa-regular fa-star"></i>
-                        <span className="text-dark ms-2">(12)</span>
+                        <span className="text-secondary ms-2">(12)</span>
                     </div>
                 </div>
+
             </section>
 
             <div className="row mt-4">
+
+                <hr />
+                <p className='text-dark p-2 text-center'>
+                    {recipe.description}
+                </p>
+
                 {/* Ingredients Section */}
                 <div className="col-md-6">
                     <h4 className="fw-semibold">Ingredients 🛒</h4>

@@ -1,5 +1,5 @@
 import React from 'react';
-import ChefAbout from'../assets/images/chefAbout.jpg'
+import ChefAbout from '../assets/images/chefAbout.jpg'
 
 const AboutUs = () => {
   return (
@@ -26,7 +26,7 @@ const AboutUs = () => {
 
       </div>
 
-      <h2 className="text-center text-2xl font-bold my-4 pb-2 custom-heading">Frequently Asked Questions</h2>
+      <h2 className="text-center text-2xl font-bold my-4 pb-3 custom-heading">Frequently Asked Questions</h2>
       <div className="d-flex justify-content-center mb-5 mx-4">
         <div className="flex-1 max-w-5xl space-y-4 w-100">
           <div className="accordion" id="accordionExample">
@@ -50,9 +50,7 @@ const AboutUs = () => {
                 data-bs-parent="#accordionExample"
               >
                 <div className="accordion-body">
-                  Sharing a recipe is easy! Simply sign in to your account, navigate to the "Add Recipe" section,
-                  and fill in the details like the recipe name, ingredients, preparation steps, cooking time, and
-                  upload an image. Once submitted, your recipe will be visible to the entire Recipe Radar community
+                  Sharing a recipe is easy! Simply sign in to your account, click on Profile icon → Add Recipe in the menu, and fill in the details like the recipe name, ingredients, preparation steps, cooking time, and upload an image. Once submitted, your recipe will be visible to the entire Recipe Radar community.
                 </div>
               </div>
             </div>

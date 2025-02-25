@@ -183,8 +183,7 @@
 }
 
 .recipe-page-img {
-  height: 250px !important;
-  border: 4px solid var(--ternary);
+  height: 300px !important;
   border-radius: 50%;
 }
 

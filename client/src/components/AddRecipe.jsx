@@ -1,9 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import config from '../config';
 import NotificationModal from './Modals/NotificationModal';
+import { useNavigate } from 'react-router-dom';
 
 const AddRecipe = ({ handleAddRecipe }) => {
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }]);
@@ -15,6 +17,17 @@ const AddRecipe = ({ handleAddRecipe }) => {
     const [tags, setTags] = useState([]);
     const [videoLink, setVideoLink] = useState('');
     const [notification, setNotification] = useState({ isOpen: false, message: '' });
+    const [nutrition, setNutrition] = useState({
+        calories: 0,
+        protein: 0,
+        carbohydrates: 0,
+        fat: 0,
+        sugar: 0,
+        fiber: 0,
+        sodium: 0,
+        calcium: 0,
+        iron: 0
+    });
 
     const titleRef = useRef(null);
     const descriptionRef = useRef(null);
@@ -31,7 +44,14 @@ const AddRecipe = ({ handleAddRecipe }) => {
     ];
 
     const userData = JSON.parse(localStorage.getItem('userData'));
+    useEffect(()=>{
+        if(!userData){
+            navigate('/')
+        }
+    },[navigate]);
+
     const userID = userData?.id || '';
+    const userName = userData?.name || 'Anonymous'
 
     const toggleTag = (tag) => {
         setTags(prevTags =>
@@ -95,7 +115,8 @@ const AddRecipe = ({ handleAddRecipe }) => {
         formData.append('servings', servings);
         formData.append('difficulty', calculateDifficulty(cookingTime));
         formData.append('image', image);
-        formData.append('author', userID);
+        formData.append('authorID', userID);
+        formData.append('authorName', userName);
         formData.append('videoLink', videoLink);
 
         ingredients.forEach((ingredient, index) => {
@@ -116,10 +137,8 @@ const AddRecipe = ({ handleAddRecipe }) => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log("Recipe added successfully:", response.data);
-            handleAddRecipe(response.data.recipe);
 
-            // Show success notification
+            setNutrition(response.data.recipe.nutrition);
             setNotification({ isOpen: true, message: 'Recipe added successfully!' });
             clearForm();
 
@@ -128,7 +147,6 @@ const AddRecipe = ({ handleAddRecipe }) => {
             setNotification({ isOpen: true, message: 'Failed to add recipe. Try again!' });
         }
     };
-
     return (
         <div className="mx-3 mt-4">
             <h2 className="text-center text-custom fs-1 pb-4">Add Recipe</h2>

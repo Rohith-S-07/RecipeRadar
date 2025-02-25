@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { jwtDecode } from 'jwt-decode'
+import config from './config'
+import axios from 'axios'
 
 import Layout from './components/Layout'
 import HomePage from './components/HomePage'
@@ -27,6 +29,19 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 const TokenHandler = () => {
   const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  useEffect(() => {
+    const wakeBackend = async () => {
+      try {
+        await axios.get(`${config.BASE_URL}/ping`);
+        console.log("Backend pinged successfully");
+      } catch (error) {
+        console.error("Error pinging backend:", error);
+      }
+    };
+
+    wakeBackend();
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken')
@@ -68,7 +83,7 @@ const TokenHandler = () => {
 function App() {
   return (
     <Router>
-      <TokenHandler /> {/* Token check at the start */}
+      <TokenHandler />
       <Routes>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
@@ -76,8 +91,8 @@ function App() {
         <Route path="/about" element={<Layout><AboutUs /></Layout>} />
         <Route path="/contact" element={<Layout><ContactUs /></Layout>} />
         <Route path="/recipes" element={<Layout><Recipes /></Layout>} />
-        <Route path="/recipes/addrecipe" element={<Layout><AddRecipe /></Layout>} />
         <Route path="/recipes/:category" element={<Layout><ViewCategory /></Layout>} />
+        <Route path="/recipes/addrecipe" element={<Layout><AddRecipe /></Layout>} />
         <Route path="/recipes/view/:id" element={<Layout><ViewRecipe /></Layout>} />
       </Routes>
     </Router>

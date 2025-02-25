@@ -21,6 +21,11 @@ const recipeRoutes = require('./routes/recipeRoutes');
 app.use('/auth', authRoutes);
 app.use('/recipes', recipeRoutes);
 
+app.get('/ping', (req, res) => {
+    res.status(200).json({ message: "Backend is awake!" });
+});
+
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
