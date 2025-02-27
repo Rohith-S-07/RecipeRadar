@@ -3,12 +3,14 @@ import API from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import RecipeLogo from '../assets/images/recipe-radar-new.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Spinner } from 'react-bootstrap';
 import '../assets/styles/SignIn_Up.css';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({ email: '', password: '' });
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
@@ -50,10 +52,10 @@ const SignIn = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+      setLoading(true);
       try {
         const response = await API.post('/auth/login', { email, password });
 
-        // Store user data with profile picture in localStorage
         localStorage.setItem('authToken', response.data.token);
         localStorage.setItem('userData', JSON.stringify(response.data.user));
 
@@ -63,6 +65,8 @@ const SignIn = () => {
       } catch (error) {
         setError(error.response?.data.message || 'Invalid login credentials.');
         setSuccess('');
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -111,14 +115,21 @@ const SignIn = () => {
             {errors.password && <div className="invalid-feedback">{errors.password}</div>}
           </div>
 
-
           <br />
-          <button className="btn custom-btn-primary text-light" type="submit">
-            Sign In
+          <button className="btn custom-btn-primary text-light" type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                <Spinner animation="border" size="sm" /> Signing In...
+              </>
+            ) : (
+              'Sign In'
+            )}
           </button>
         </form>
+
         {error && <div className="text-danger mt-3 text-center">{error}</div>}
         {success && <div className="text-success mt-3 text-center">{success}</div>}
+
         <p className="text-secondary">
           Haven't Registered yet? <a href="/signup" className="register-link">Register now!</a>
         </p>

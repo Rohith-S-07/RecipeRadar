@@ -15,6 +15,10 @@ import ViewCategory from './components/ViewCategory'
 import AddRecipe from './components/AddRecipe'
 import ViewRecipe from './components/ViewRecipe'
 import NotificationModal from './components/Modals/NotificationModal'
+import Profile from './components/Profile'
+import Chat from './components/Chat'
+import NotFound from './components/NotFound'; // Import the NotFound component
+
 
 import './assets/styles/Main.css'
 import './assets/styles/Recipes.css'
@@ -34,9 +38,9 @@ const TokenHandler = () => {
     const wakeBackend = async () => {
       try {
         await axios.get(`${config.BASE_URL}/ping`);
-        console.log("Backend pinged successfully");
+        // console.log("Backend pinged successfully");
       } catch (error) {
-        console.error("Error pinging backend:", error);
+        console.error("Error starting backend:", error);
       }
     };
 
@@ -94,6 +98,10 @@ function App() {
         <Route path="/recipes/:category" element={<Layout><ViewCategory /></Layout>} />
         <Route path="/recipes/addrecipe" element={<Layout><AddRecipe /></Layout>} />
         <Route path="/recipes/view/:id" element={<Layout><ViewRecipe /></Layout>} />
+        {/* <Route path="/profile" element={<Layout><Profile /></Layout>} /> */}
+        {/* <Route path="/chat" element={<Layout><Chat /></Layout>} /> */}
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )

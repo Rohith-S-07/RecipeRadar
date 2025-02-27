@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
 import { CiCirclePlus } from "react-icons/ci";
 import { MdOutlineChat } from "react-icons/md";
+import { GiCook } from "react-icons/gi";
 import config from "../config";
 
 import NotificationModal from "./Modals/NotificationModal";
@@ -29,7 +29,15 @@ const NavBar = () => {
 
     // Toggle dropdown
     const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
+        if (dropdownOpen) {
+            // Play closing animation before actually hiding
+            document.querySelector(".dropdown-menu").classList.add("hide");
+            setTimeout(() => {
+                setDropdownOpen(false);
+            }, 400); // Wait for animation to finish
+        } else {
+            setDropdownOpen(true);
+        }
     };
 
     // Close Navbar when clicking a link (Mobile View)
@@ -120,13 +128,29 @@ const NavBar = () => {
                                                 className="dropdown-item"
                                                 onClick={() => {
                                                     closeNavbar();
+                                                    navigate('/profile');
+                                                }}
+                                            >
+                                                <GiCook className="me-2 mb-2 fs-4" />
+                                                Profile
+                                            </button>
+                                            <button
+                                                className="dropdown-item"
+                                                onClick={() => {
+                                                    closeNavbar();
                                                     navigate('/recipes/addrecipe');
                                                 }}
                                             >
                                                 <CiCirclePlus className="me-2 mb-1 fs-4" />
                                                 Add Recipe
                                             </button>
-                                            <button className="dropdown-item" onClick={closeNavbar}>
+                                            <button className="dropdown-item"
+                                                onClick={() => {
+                                                    closeNavbar();
+                                                    navigate('/chat');
+                                                }}
+                                            >
+
                                                 <MdOutlineChat className="me-2 mb-1 fs-4" />
                                                 Chat
                                             </button>

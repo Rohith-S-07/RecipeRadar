@@ -1,0 +1,102 @@
+.chat-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.back-icon {
+    cursor: pointer;
+}
+
+.brand-name {
+    color: red;
+    text-decoration: underline;
+}
+
+.chat-history {
+    height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.chat-message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+
+.chat-message .avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.message-bubble {
+    background: #f1f1f1;
+    padding: 10px 15px;
+    border-radius: 10px;
+    max-width: 60%;
+}
+
+.chat-message.user .message-bubble {
+    background: #dfe8ff;
+}
+
+.image-container {
+    display: flex;
+    gap: 10px;
+}
+
+.recipe-card {
+    text-align: center;
+}
+
+.recipe-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+}
+
+.view-btn {
+    background: purple;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.send-btn {
+    background: blue;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}

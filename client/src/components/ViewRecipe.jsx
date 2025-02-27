@@ -104,6 +104,59 @@ const ViewRecipe = () => {
                 </div>
             </div>
 
+            {/* Nutrition Section */}
+            <div className="mt-4">
+                <h4 className="fw-semibold text-dark">Nutritional Information 🥗</h4>
+                <div className="table-responsive rounded">
+                    <table className="table table-bordered text-center">
+                        <thead className="table-success">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Calories</td>
+                                <td>{recipe.nutrition.calories} kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>{recipe.nutrition.protein} g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbohydrates</td>
+                                <td>{recipe.nutrition.carbohydrates} g</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>{recipe.nutrition.fat} g</td>
+                            </tr>
+                            <tr>
+                                <td>Sugar</td>
+                                <td>{recipe.nutrition.sugar} g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>{recipe.nutrition.fiber} g</td>
+                            </tr>
+                            <tr>
+                                <td>Sodium</td>
+                                <td>{recipe.nutrition.sodium} mg</td>
+                            </tr>
+                            <tr>
+                                <td>Calcium</td>
+                                <td>{recipe.nutrition.calcium} mg</td>
+                            </tr>
+                            <tr>
+                                <td>Iron</td>
+                                <td>{recipe.nutrition.iron} mg</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             {/* Additional Recipe Details */}
             <div className="row mt-4">
                 <div className="col-md-4 text-center">

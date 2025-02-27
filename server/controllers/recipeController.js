@@ -77,7 +77,10 @@ const getNutritionData = async (ingredients) => {
             }
         });
 
-        console.log("Fetched Nutrition Data:", nutrition);
+        Object.keys(nutrition).forEach(key => {
+            nutrition[key] = parseFloat(nutrition[key].toFixed(2));
+        });
+
         return nutrition;
 
     } catch (error) {

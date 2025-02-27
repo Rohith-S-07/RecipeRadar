@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import categoriesData from '../data/categoriesData';
 import config from '../config'
@@ -87,8 +87,10 @@ const ViewCategory = () => {
                         ))
                     ) : (
                         <div className="text-center">
-                            <LottiePlayer src="https://lottie.host/f287ac77-eba7-4bc3-b689-e36b89592fbe/xILdJ5522u.lottie" />
-                            No recipes available for this category.
+                            <LottiePlayer src="https://lottie.host/e9ab5ffe-f970-4d48-a59d-82747af4c1e7/1DMwFNP5bB.lottie" />
+                            No recipes available for this category
+                            <br />
+                            <Link to={'/recipes'} className='btn custom-primary-text mt-2'> Explore other categories</Link>
                         </div>
                     )}
                 </div>

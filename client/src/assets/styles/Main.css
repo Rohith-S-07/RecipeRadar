@@ -64,6 +64,10 @@ body {
   font-size: 60px;
 }
 
+.custom-primary-text{
+  color: var(--primary);
+}
+
 .explore-btn {
   border: 1px solid var(--secondary);
   background-color: var(--secondary);
