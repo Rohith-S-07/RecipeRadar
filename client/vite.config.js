@@ -19,15 +19,15 @@ export default defineConfig({
   },
   optimizeDeps: {
     esbuildOptions: {
-      target: "esnext", // Optimize for latest browsers
+      target: "esnext",
     },
   },
   build: {
-    minify: "terser", // Use a lighter minifier
-    chunkSizeWarningLimit: 1000, // Prevent warnings
+    minify: "terser",
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: undefined, // Reduce chunk splitting
+        manualChunks: undefined,
       },
     },
   },

@@ -3,7 +3,6 @@ import API from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import RecipeLogo from '../assets/images/recipe-radar-new.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Spinner } from 'react-bootstrap';
 import '../assets/styles/SignIn_Up.css';
 
 const SignIn = () => {
@@ -119,12 +118,14 @@ const SignIn = () => {
           <button className="btn custom-btn-primary text-light" type="submit" disabled={loading}>
             {loading ? (
               <>
-                <Spinner animation="border" size="sm" /> Signing In...
+                <div className="spinner-border spinner-border-sm text-light me-2" role="status"></div>
+                Signing In...
               </>
             ) : (
               'Sign In'
             )}
           </button>
+
         </form>
 
         {error && <div className="text-danger mt-3 text-center">{error}</div>}
