@@ -17,4 +17,18 @@ export default defineConfig({
   define: {
     'process.env': {},
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: "esnext", // Optimize for latest browsers
+    },
+  },
+  build: {
+    minify: "terser", // Use a lighter minifier
+    chunkSizeWarningLimit: 1000, // Prevent warnings
+    rollupOptions: {
+      output: {
+        manualChunks: undefined, // Reduce chunk splitting
+      },
+    },
+  },
 });
