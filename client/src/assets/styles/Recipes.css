@@ -106,6 +106,7 @@
   text-align: center;
   display: flex;
   justify-content: center;
+  margin: 0 5px;
   margin-bottom: 25px;
 }
 
@@ -190,4 +191,65 @@
 .wishlist-btn {
   position: absolute;
   right: 20px;
+}
+
+/* My Recipes Card */
+/* Recipes Container Styles */
+.my-recipe-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.my-recipe-card {
+  position: relative;
+  background-color: white;
+  padding: 5px;
+  height: 280px;
+  width: 180px;
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  /* border: 0.2px gray solid; */
+  box-shadow: 1px 1px 2px rgb(128, 128, 128);
+  overflow: hidden;
+}
+
+.my-recipe-card img {
+  display: block;
+  width: 170px;
+  margin: 0 auto;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.my-recipe-ratings {
+  margin-top: 5px;
+}
+
+.my-recipe-title {
+  /* font-family: "Pacifico", serif; */
+  margin: 0 auto;
+  margin-top: 5px;
+  width: fit-content;
+  /* background: var(--primary); */
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 18px;
+}
+
+.my-recipes-menu{
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: white;
+  border-bottom-left-radius: 10px;
+  padding: 8px;
+}
+
+.my-recipes-menu .menu-icon:hover{
+  color: var(--primary);
+  cursor: pointer;
 }

@@ -3,7 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { LuLogOut } from "react-icons/lu";
 import { CiCirclePlus } from "react-icons/ci";
 import { MdOutlineChat } from "react-icons/md";
-import { GiCook } from "react-icons/gi";
+import { GiCook, GiFiles } from "react-icons/gi";
+import { TbEditCircle } from "react-icons/tb";
 import config from "../config";
 
 import NotificationModal from "./Modals/NotificationModal";
@@ -144,6 +145,16 @@ const NavBar = () => {
                                                 <CiCirclePlus className="me-2 mb-1 fs-4" />
                                                 Add Recipe
                                             </button>
+                                            <button
+                                                className="dropdown-item"
+                                                onClick={() => {
+                                                    closeNavbar();
+                                                    navigate('/recipes/myrecipes');
+                                                }}
+                                            >
+                                                <GiFiles className="me-2 fs-4" />
+                                                My Recipes
+                                            </button>
                                             <button className="dropdown-item"
                                                 onClick={() => {
                                                     closeNavbar();
@@ -155,13 +166,13 @@ const NavBar = () => {
                                                 Chat
                                             </button>
                                             <button
-                                                className="dropdown-item text-danger"
+                                                className="btn btn-danger ms-3"
                                                 onClick={() => {
                                                     closeNavbar();
                                                     setShowLogoutModal(true);
                                                 }}
                                             >
-                                                <LuLogOut className="me-2 mb-1 fs-4" />
+                                                <LuLogOut className="me-2 mb-1 fs-5" />
                                                 Logout
                                             </button>
                                         </div>

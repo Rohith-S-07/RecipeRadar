@@ -1,5 +1,5 @@
 const express = require("express");
-const { addRecipe, getRecipes, searchRecipes, getRecipeById, getRecipesByCategory } = require("../controllers/recipeController");
+const { addRecipe, getRecipes, searchRecipes, getRecipeById, getRecipesByCategory, getUserRecipes, deleteRecipe, updateRecipe } = require("../controllers/recipeController");
 const authMiddleware = require("../middleware/authMiddleware");
 const multer = require("multer");
 const path = require("path");
@@ -19,9 +19,13 @@ const upload = multer({ storage });
 // Routes
 router.post("/add", authMiddleware, upload.single("image"), addRecipe);
 router.get("/", getRecipes);
-router.get("/search", searchRecipes); // Search recipes by title/tags
-router.get("/:id", getRecipeById); // Get a single recipe by ID
+router.get("/search", searchRecipes);
+router.get("/view/:id", getRecipeById);
 router.get("/category/:category", getRecipesByCategory);
+router.get("/my-recipes", authMiddleware, getUserRecipes);
+// router.put('/edit/:id', authMiddleware, updateRecipe);
+router.put('/edit/:id', upload.single('image'), updateRecipe);
+router.delete("/delete/:id", authMiddleware, deleteRecipe);
 
 
 module.exports = router;

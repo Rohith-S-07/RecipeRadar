@@ -15,9 +15,11 @@ import ViewCategory from './components/ViewCategory'
 import AddRecipe from './components/AddRecipe'
 import ViewRecipe from './components/ViewRecipe'
 import NotificationModal from './components/Modals/NotificationModal'
+import MyRecipes from './components/MyRecipes'
+import EditRecipe from './components/EditRecipe'
 import Profile from './components/Profile'
 import Chat from './components/Chat'
-import NotFound from './components/NotFound'; // Import the NotFound component
+import NotFound from './components/NotFound';
 
 
 import './assets/styles/Main.css'
@@ -98,6 +100,8 @@ function App() {
         <Route path="/recipes/:category" element={<Layout><ViewCategory /></Layout>} />
         <Route path="/recipes/addrecipe" element={<Layout><AddRecipe /></Layout>} />
         <Route path="/recipes/view/:id" element={<Layout><ViewRecipe /></Layout>} />
+        <Route path="/recipes/myrecipes" element={<Layout><MyRecipes /></Layout>} />
+        <Route path="/recipes/edit/:id" element={<Layout><EditRecipe /></Layout>} />
         {/* <Route path="/profile" element={<Layout><Profile /></Layout>} /> */}
         {/* <Route path="/chat" element={<Layout><Chat /></Layout>} /> */}
 

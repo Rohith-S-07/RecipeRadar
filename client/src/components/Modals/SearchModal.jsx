@@ -47,28 +47,35 @@ const SearchModal = ({ show, onClose }) => {
         } catch (error) {
             console.error("Error fetching recipes:", error);
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false);
         }
     };
-    
-    const handleSearch = async (e) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-    
-        if (query.length > 2) {
+
+    useEffect(() => {
+        if (searchQuery.length < 3) {
+            fetchRecipes();
+            return;
+        }
+
+        const delaySearch = setTimeout(async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${config.BASE_URL}/recipes/search?query=${query}`);
+                const response = await axios.get(`${config.BASE_URL}/recipes/search?query=${searchQuery}`);
                 setRecipes(response.data);
             } catch (error) {
                 console.error("Error searching recipes:", error);
             } finally {
                 setLoading(false);
             }
-        } else {
-            fetchRecipes();
-        }
+        }, 500);
+
+        return () => clearTimeout(delaySearch);
+    }, [searchQuery]);
+
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
     };
+
     return (
         <div className={`search-modal ${animationClass}`} onClick={onClose}>
             <div className="search-modal-content" style={{ height: modalHeight }} onClick={(e) => e.stopPropagation()}>

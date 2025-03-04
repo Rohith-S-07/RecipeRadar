@@ -11,7 +11,7 @@ const getNutritionData = async (ingredients) => {
             return null;
         }
 
-        console.log("Processing Ingredients:", ingredients);
+        // console.log("Processing Ingredients:", ingredients);
 
         // Convert ingredients into Spoonacular API format
         const ingredientList = ingredients
@@ -30,18 +30,18 @@ const getNutritionData = async (ingredients) => {
             return null;
         }
 
-        console.log("Formatted Ingredient List:", ingredientList);
+        // console.log("Formatted Ingredient List:", ingredientList);
 
         // Make API request to parse ingredients and fetch nutrition
         const response = await axios({
             method: 'post',
             url: `https://api.spoonacular.com/recipes/parseIngredients`,
-            data: qs.stringify({ // Convert to x-www-form-urlencoded format
+            data: qs.stringify({
                 ingredientList: ingredientList,
                 servings: 1,
                 includeNutrition: true
             }),
-            headers: { 
+            headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             params: { apiKey: SPOONACULAR_API_KEY }
@@ -103,7 +103,7 @@ const addRecipe = async (req, res) => {
             return res.status(400).json({ message: "Please fill all required fields" });
         }
 
-        console.log("Received Ingredients:", ingredients);
+        // console.log("Received Ingredients:", ingredients);
 
         const nutrition = await getNutritionData(ingredients) || {};
 
@@ -122,7 +122,7 @@ const addRecipe = async (req, res) => {
             nutrition
         });
 
-        console.log("Final Recipe Object:", newRecipe);
+        // console.log("Final Recipe Object:", newRecipe);
 
         await newRecipe.save();
         res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
@@ -201,5 +201,67 @@ const getRecipesByCategory = async (req, res) => {
     }
 };
 
+const getUserRecipes = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const recipes = await Recipe.find({ authorID: userId });
 
-module.exports = { addRecipe, getRecipes, searchRecipes, getRecipeById, getRecipesByCategory };
+        res.status(200).json(recipes);
+    } catch (error) {
+        console.error("Error fetching user recipes:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const deleteRecipe = async (req, res) => {
+    try {
+        const recipeId = req.params.id;
+        const userId = req.user.id;
+
+        const recipe = await Recipe.findById(recipeId);
+        if (!recipe) {
+            return res.status(404).json({ message: "Recipe not found" });
+        }
+
+        // Ensure the logged-in user is the owner of the recipe
+        if (recipe.authorID.toString() !== userId) {
+            return res.status(403).json({ message: "Unauthorized to delete this recipe" });
+        }
+
+        await Recipe.findByIdAndDelete(recipeId);
+        res.status(200).json({ message: "Recipe deleted successfully" });
+
+    } catch (error) {
+        console.error("Error deleting recipe:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
+// Update a recipe
+const updateRecipe = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updateData = req.body;
+
+        console.log("Updata data: ", req.body);
+
+        if (req.file) {
+            updateData.image = req.file.path.startsWith("/") ? req.file.path : `/${req.file.path}`;
+        }
+
+        const updatedRecipe = await Recipe.findByIdAndUpdate(id, updateData, { new: true });
+
+        if (!updatedRecipe) {
+            return res.status(404).json({ message: 'Recipe not found' });
+        }
+
+        res.status(200).json({ message: 'Recipe updated successfully', recipe: updatedRecipe });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating recipe', error });
+    }
+};
+
+
+
+module.exports = { addRecipe, getRecipes, searchRecipes, getRecipeById, getRecipesByCategory, getUserRecipes, updateRecipe, deleteRecipe };

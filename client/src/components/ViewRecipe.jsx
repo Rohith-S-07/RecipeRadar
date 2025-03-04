@@ -18,7 +18,7 @@ const ViewRecipe = () => {
 
     const fetchRecipe = async () => {
         try {
-            const response = await axios.get(`${config.BASE_URL}/recipes/${id}`);
+            const response = await axios.get(`${config.BASE_URL}/recipes/view/${id}`);
             setRecipe(response.data);
         } catch (error) {
             console.error("Error fetching recipe:", error);
