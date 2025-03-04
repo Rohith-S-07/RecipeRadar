@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import config from "../config";
 
-import { FaHeart } from "react-icons/fa";
-
 const ViewRecipe = () => {
     const { id } = useParams();
     const [recipe, setRecipe] = useState(null);
@@ -33,7 +31,7 @@ const ViewRecipe = () => {
     return (
         <div className="recipe-page m-3 p-3">
             <span className="wishlist-btn">
-                <FaHeart className="text-danger fs-2" />
+                <i className="bi bi-bookmark-heart-fill text-danger fs-2"></i>
             </span>
             <section className="row mb-2 align-items-center justify-content-between">
                 <div className="col-md-5 d-flex flex-column">

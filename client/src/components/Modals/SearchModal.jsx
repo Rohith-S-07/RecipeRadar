@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { BsChevronDoubleDown } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import config from "../../config";
@@ -80,7 +79,7 @@ const SearchModal = ({ show, onClose }) => {
         <div className={`search-modal ${animationClass}`} onClick={onClose}>
             <div className="search-modal-content" style={{ height: modalHeight }} onClick={(e) => e.stopPropagation()}>
                 <button className="btn close-btn" onClick={onClose}>
-                    <BsChevronDoubleDown />
+                    <i className="bi bi-chevron-double-down"></i>
                 </button>
                 <div className="d-flex justify-content-between align-items-center">
                     <input

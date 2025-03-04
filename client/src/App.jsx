@@ -30,6 +30,7 @@ import './assets/styles/NavBar.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // Token Expiry Handler Component
 const TokenHandler = () => {

@@ -3,17 +3,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import config from '../config';
 import LottiePlayer from './LottiePlayer';
-import { CiCirclePlus } from "react-icons/ci";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { MdDelete } from "react-icons/md";
-import { FaPencil } from "react-icons/fa6";
-import ConfirmationModal from './Modals/ConfirmationModal';  
-import NotificationModal from './Modals/NotificationModal';  
+import ConfirmationModal from './Modals/ConfirmationModal';
+import NotificationModal from './Modals/NotificationModal';
 
 const MyRecipes = () => {
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [menuOpen, setMenuOpen] = useState(null); 
+    const [menuOpen, setMenuOpen] = useState(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState("");
@@ -80,27 +76,26 @@ const MyRecipes = () => {
                     {recipes.map(recipe => (
                         <div key={recipe._id} className="my-recipe-card text-center position-relative">
                             <div className="my-recipes-menu">
-                                <BsThreeDotsVertical
-                                    size={22}
+                                <i className="bi bi-list"
                                     style={{ cursor: "pointer" }}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setMenuOpen(menuOpen === recipe._id ? null : recipe._id);
                                     }}
-                                />
+                                ></i>
                                 {menuOpen === recipe._id && (
                                     <div className="menu-dropdown">
                                         <div
                                             className="my-recipes-menu-item"
                                             onClick={() => navigate(`/recipes/edit/${recipe._id}`)}
                                         >
-                                            <FaPencil className='menu-icon' />
+                                            <i className="bi bi-pencil-fill menu-icon"></i>
                                         </div>
                                         <div
                                             className="my-recipes-menu-item text-danger"
                                             onClick={() => confirmDelete(recipe._id)}
                                         >
-                                            <MdDelete className='menu-icon' />
+                                            <i className="bi bi-trash3-fill menu-icon"></i>
                                         </div>
                                     </div>
                                 )}
@@ -125,7 +120,7 @@ const MyRecipes = () => {
                         }}
                         className='btn custom-btn-primary text-light mt-2'
                     >
-                        <CiCirclePlus className="me-2 mb-1 fs-3" />
+                        <i className="bi bi-plus-circle me-2 mb-1 fs-3"></i>
                         Add Now
                     </button>
                 </div>

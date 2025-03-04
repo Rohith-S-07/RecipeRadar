@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
 
 const sampleMessages = [
     { id: 1, sender: 'Rohith S', content: 'Hey there!', timestamp: '10:30 AM' },
@@ -29,13 +28,13 @@ const Chat = () => {
     return (
         <div className="container mt-4">
             <div className="card p-3">
-                <h3 className="text-center"><FaUserCircle size={24} className="text-muted" /> Abu </h3>
+                <h3 className="text-center"><i className="bi bi-person-circle text-muted"  size={24}></i> Abu </h3>
                 <div className="chat-history p-3" style={{ height: '300px', overflowY: 'scroll', background: '#f8f9fa', borderRadius: '5px' }}>
                     {messages.map(msg => (
                         <div key={msg.id} className={`d-flex mb-2 ${msg.sender === currentUser ? 'justify-content-end' : ''}`}>
                             {msg.sender !== currentUser && (
                                 <div className="d-flex align-items-start me-2">
-                                    <FaUserCircle size={24} className="text-muted" />
+                                    <i className="bi bi-person-circle text-muted"  size={24}></i>
                                     <div className="ms-2">
                                         <strong className="text-primary">{msg.sender}</strong>
                                         <small className="d-block text-muted">{msg.timestamp}</small>
@@ -51,7 +50,7 @@ const Chat = () => {
                                         <strong className="text-success">{msg.sender}</strong>
                                         <small className="d-block text-muted">{msg.timestamp}</small>
                                     </div>
-                                    <FaUserCircle size={24} className="text-muted" />
+                                    <i className="bi bi-person-circle text-muted"  size={24}></i>
                                 </div>
                             )}
                         </div>

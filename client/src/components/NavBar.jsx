@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { LuLogOut } from "react-icons/lu";
-import { CiCirclePlus } from "react-icons/ci";
-import { MdOutlineChat } from "react-icons/md";
-import { GiCook, GiFiles } from "react-icons/gi";
-import { TbEditCircle } from "react-icons/tb";
 import config from "../config";
 
 import NotificationModal from "./Modals/NotificationModal";
@@ -132,7 +127,7 @@ const NavBar = () => {
                                                     navigate('/profile');
                                                 }}
                                             >
-                                                <GiCook className="me-2 mb-2 fs-4" />
+                                                <i className="bi bi-person-lines-fill me-2 mb-2 fs-5"></i>
                                                 Profile
                                             </button>
                                             <button
@@ -142,7 +137,7 @@ const NavBar = () => {
                                                     navigate('/recipes/addrecipe');
                                                 }}
                                             >
-                                                <CiCirclePlus className="me-2 mb-1 fs-4" />
+                                                <i className="bi bi-plus-circle me-2 mb-1 fs-5"></i>
                                                 Add Recipe
                                             </button>
                                             <button
@@ -152,7 +147,7 @@ const NavBar = () => {
                                                     navigate('/recipes/myrecipes');
                                                 }}
                                             >
-                                                <GiFiles className="me-2 fs-4" />
+                                                <i className="bi bi-folder2-open me-2 fs-5"></i>
                                                 My Recipes
                                             </button>
                                             <button className="dropdown-item"
@@ -161,8 +156,7 @@ const NavBar = () => {
                                                     navigate('/chat');
                                                 }}
                                             >
-
-                                                <MdOutlineChat className="me-2 mb-1 fs-4" />
+                                                <i className="bi bi-chat-dots me-2 fs-5"></i>
                                                 Chat
                                             </button>
                                             <button
@@ -172,7 +166,7 @@ const NavBar = () => {
                                                     setShowLogoutModal(true);
                                                 }}
                                             >
-                                                <LuLogOut className="me-2 mb-1 fs-5" />
+                                                <i className="bi bi-box-arrow-right me-2 fs-6"></i>
                                                 Logout
                                             </button>
                                         </div>

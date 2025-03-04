@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import API from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import RecipeLogo from '../assets/images/recipe-radar-new.png';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../assets/styles/SignIn_Up.css';
 
 const SignIn = () => {
@@ -108,7 +107,7 @@ const SignIn = () => {
                 onClick={togglePasswordVisibility}
                 style={{ cursor: 'pointer' }}
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
               </span>
             </div>
             {errors.password && <div className="invalid-feedback">{errors.password}</div>}
