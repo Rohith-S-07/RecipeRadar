@@ -68,6 +68,10 @@ body {
   color: var(--primary);
 }
 
+.custom-bg-primary{
+  background-color: var(--primary);
+}
+
 .explore-btn {
   border: 1px solid var(--secondary);
   background-color: var(--secondary);

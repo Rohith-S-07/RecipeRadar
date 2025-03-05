@@ -160,7 +160,7 @@ const NavBar = () => {
                                                 Chat
                                             </button>
                                             <button
-                                                className="btn btn-danger ms-3"
+                                                className="btn btn-danger w-75 ms-3 mt-2"
                                                 onClick={() => {
                                                     closeNavbar();
                                                     setShowLogoutModal(true);

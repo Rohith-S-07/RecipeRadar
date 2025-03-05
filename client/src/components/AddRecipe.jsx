@@ -3,6 +3,7 @@ import axios from 'axios';
 import config from '../config';
 import NotificationModal from './Modals/NotificationModal';
 import { useNavigate } from 'react-router-dom';
+import { Tooltip } from "bootstrap";
 
 const AddRecipe = ({ handleAddRecipe }) => {
     const navigate = useNavigate();
@@ -44,11 +45,16 @@ const AddRecipe = ({ handleAddRecipe }) => {
     ];
 
     const userData = JSON.parse(localStorage.getItem('userData'));
-    useEffect(()=>{
-        if(!userData){
+    useEffect(() => {
+        if (!userData) {
             navigate('/')
         }
-    },[navigate]);
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipTriggerList.forEach((tooltipTriggerEl) => {
+            new Tooltip(tooltipTriggerEl);
+        });
+    }, [navigate]);
 
     const userID = userData?.id || '';
     const userName = userData?.name || 'Anonymous'
@@ -148,8 +154,8 @@ const AddRecipe = ({ handleAddRecipe }) => {
         }
     };
     return (
-        <div className="mx-3 mt-4">
-            <h2 className="text-center text-custom fs-1 pb-4">Add Recipe</h2>
+        <div className="container mt-4">
+            <h2 className="text-center text-custom fs-2 pb-4">Add Recipe</h2>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="mb-3">
                     <label className="form-label">Title</label>
@@ -163,29 +169,60 @@ const AddRecipe = ({ handleAddRecipe }) => {
 
                 {/* Ingredients */}
                 <div className="mb-3">
-                    <label className="form-label">Ingredients</label>
+                    <div className='d-flex'>
+                        <label className="form-label">Ingredients</label>
+                        <button
+                            type="button"
+                            className="ms-2 btn-sm border-0 bg-transparent"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            title="Supported units: g, kg, ml, tbsp, tsp, cup, small, medium, large"
+                        >
+                            <i className="bi bi-info-circle text-warning"></i>
+                        </button>
+                    </div>
                     {ingredients.map((ingredient, index) => (
                         <div key={index} className="row mb-2">
                             <div className="col-6 mb-1">
-                                <input type="text" className="form-control" placeholder="Name" value={ingredient.name}
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Name"
+                                    value={ingredient.name}
                                     onChange={(e) => {
                                         const newIngredients = [...ingredients];
                                         newIngredients[index].name = e.target.value;
                                         setIngredients(newIngredients);
-                                    }} required />
+                                    }}
+                                    required
+                                />
                             </div>
-                            <div className="col-6">
-                                <input type="text" className="form-control" placeholder="Quantity" value={ingredient.quantity}
+                            <div className="col-6 d-flex align-items-center">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Quantity"
+                                    value={ingredient.quantity}
                                     onChange={(e) => {
                                         const newIngredients = [...ingredients];
                                         newIngredients[index].quantity = e.target.value;
                                         setIngredients(newIngredients);
-                                    }} required />
+                                    }}
+                                    required
+                                />
                             </div>
                         </div>
                     ))}
-                    <button type="button" className="btn btn-outline-primary btn-sm mt-2" onClick={() => setIngredients([...ingredients, { name: '', quantity: '' }])}>+ Add Ingredient</button>
+                    <button
+                        type="button"
+                        className="btn btn-outline-primary btn-sm"
+                        onClick={() => setIngredients([...ingredients, { name: '', quantity: '' }])}
+                    >
+                        + Add Ingredient
+                    </button>
                 </div>
+
 
                 {/* Steps */}
                 <div className="mb-3">

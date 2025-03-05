@@ -6,6 +6,19 @@ import config from "../config";
 const ViewRecipe = () => {
     const { id } = useParams();
     const [recipe, setRecipe] = useState(null);
+    const extractYouTubeID = (url) => {
+        if (!url) return null;
+
+        let videoID = null;
+        const regex = /(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w-]{11})/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            videoID = match[1];
+        }
+
+        return videoID;
+    };
 
     useEffect(() => {
         fetchRecipe();
@@ -66,6 +79,24 @@ const ViewRecipe = () => {
                     {recipe.description}
                 </p>
 
+                {/* Additional Recipe Details */}
+                <div className="row mt-4">
+                    <div className="col-md-4 text-center">
+                        <h5 className="fw-semibold">Cooking Time ⏳</h5>
+                        <p className="text-primary fw-bold">{recipe.cookingTime} min</p>
+                    </div>
+                    <div className="col-md-4 text-center">
+                        <h5 className="fw-semibold">Servings 🍽</h5>
+                        <p className="text-primary fw-bold">{recipe.servings}</p>
+                    </div>
+                    <div className="col-md-4 text-center">
+                        <h5 className="fw-semibold">Difficulty 🔥</h5>
+                        <p className={`fw-bold ${recipe.difficulty === "Easy" ? "text-success" : recipe.difficulty === "Medium" ? "text-warning" : "text-danger"}`}>
+                            {recipe.difficulty}
+                        </p>
+                    </div>
+                </div>
+
                 {/* Ingredients Section */}
                 <div className="col-md-6">
                     <h4 className="fw-semibold">Ingredients 🛒</h4>
@@ -89,87 +120,72 @@ const ViewRecipe = () => {
                     </div>
                 </div>
 
-                {/* Steps Section */}
+                {/* Nutrition Section */}
                 <div className="col-md-6">
-                    <h4 className="fw-semibold">Steps to Cook 👨‍🍳</h4>
-                    <ul className="list-group list-group-flush">
-                        {recipe.steps.map((step, index) => (
-                            <li key={index} className="list-group-item">
-                                <strong>Step {index + 1}: </strong> {step}
-                            </li>
-                        ))}
-                    </ul>
+                    <h4 className="fw-semibold text-dark">Nutritional Information 🥗</h4>
+                    <div className="table-responsive rounded">
+                        <table className="table table-bordered text-center">
+                            <thead className="table-success">
+                                <tr>
+                                    <th>Nutrient</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Calories</td>
+                                    <td>{recipe.nutrition.calories} kcal</td>
+                                </tr>
+                                <tr>
+                                    <td>Protein</td>
+                                    <td>{recipe.nutrition.protein} g</td>
+                                </tr>
+                                <tr>
+                                    <td>Carbohydrates</td>
+                                    <td>{recipe.nutrition.carbohydrates} g</td>
+                                </tr>
+                                <tr>
+                                    <td>Fat</td>
+                                    <td>{recipe.nutrition.fat} g</td>
+                                </tr>
+                                <tr>
+                                    <td>Sugar</td>
+                                    <td>{recipe.nutrition.sugar} g</td>
+                                </tr>
+                                <tr>
+                                    <td>Fiber</td>
+                                    <td>{recipe.nutrition.fiber} g</td>
+                                </tr>
+                                <tr>
+                                    <td>Sodium</td>
+                                    <td>{recipe.nutrition.sodium} mg</td>
+                                </tr>
+                                <tr>
+                                    <td>Calcium</td>
+                                    <td>{recipe.nutrition.calcium} mg</td>
+                                </tr>
+                                <tr>
+                                    <td>Iron</td>
+                                    <td>{recipe.nutrition.iron} mg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
+                <hr />
             </div>
 
-            {/* Nutrition Section */}
-            <div className="mt-4">
-                <h4 className="fw-semibold text-dark">Nutritional Information 🥗</h4>
-                <div className="table-responsive rounded">
-                    <table className="table table-bordered text-center">
-                        <thead className="table-success">
-                            <tr>
-                                <th>Nutrient</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Calories</td>
-                                <td>{recipe.nutrition.calories} kcal</td>
-                            </tr>
-                            <tr>
-                                <td>Protein</td>
-                                <td>{recipe.nutrition.protein} g</td>
-                            </tr>
-                            <tr>
-                                <td>Carbohydrates</td>
-                                <td>{recipe.nutrition.carbohydrates} g</td>
-                            </tr>
-                            <tr>
-                                <td>Fat</td>
-                                <td>{recipe.nutrition.fat} g</td>
-                            </tr>
-                            <tr>
-                                <td>Sugar</td>
-                                <td>{recipe.nutrition.sugar} g</td>
-                            </tr>
-                            <tr>
-                                <td>Fiber</td>
-                                <td>{recipe.nutrition.fiber} g</td>
-                            </tr>
-                            <tr>
-                                <td>Sodium</td>
-                                <td>{recipe.nutrition.sodium} mg</td>
-                            </tr>
-                            <tr>
-                                <td>Calcium</td>
-                                <td>{recipe.nutrition.calcium} mg</td>
-                            </tr>
-                            <tr>
-                                <td>Iron</td>
-                                <td>{recipe.nutrition.iron} mg</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            {/* Additional Recipe Details */}
-            <div className="row mt-4">
-                <div className="col-md-4 text-center">
-                    <h5 className="fw-semibold">Cooking Time ⏳</h5>
-                    <p className="text-primary fw-bold">{recipe.cookingTime} min</p>
-                </div>
-                <div className="col-md-4 text-center">
-                    <h5 className="fw-semibold">Servings 🍽</h5>
-                    <p className="text-primary fw-bold">{recipe.servings}</p>
-                </div>
-                <div className="col-md-4 text-center">
-                    <h5 className="fw-semibold">Difficulty 🔥</h5>
-                    <p className={`fw-bold ${recipe.difficulty === "Easy" ? "text-success" : recipe.difficulty === "Medium" ? "text-warning" : "text-danger"}`}>
-                        {recipe.difficulty}
-                    </p>
+            {/* Steps Section */}
+            <div className="mt-1">
+                <h4 className="fw-semibold">Steps to Cook 👨‍🍳</h4>
+                <div className="list-group list-group-flush mt-3">
+                    {recipe.steps.map((step, index) => (
+                        <p key={index} className="list-item">
+                            <span className="custom-bg-primary text-light ps-2 pe-1 py-1 rounded-circle">{index + 1} </span>
+                            <span className="ms-2 fs-5">{step}</span>
+                        </p>
+                    ))}
                 </div>
             </div>
 
@@ -182,6 +198,24 @@ const ViewRecipe = () => {
                     ))}
                 </div>
             </div>
+
+            {/* Embed YouTube Video Section */}
+            {recipe.videoLink && extractYouTubeID(recipe.videoLink) && (
+                <div className="mt-4 mb-3">
+                    <h4 className="fw-semibold fs-4 text-dark">Watch Video 🎥</h4>
+                    <div className="ratio ratio-4x3">
+                        <iframe
+                            width="560"
+                            height="315"
+                            src={`https://www.youtube.com/embed/${extractYouTubeID(recipe.videoLink)}`}
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="rounded shadow mt-3"
+                        ></iframe>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

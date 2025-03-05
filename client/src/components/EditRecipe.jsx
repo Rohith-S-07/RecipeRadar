@@ -121,11 +121,11 @@ const EditRecipe = () => {
 
     return (
         <div className="container mt-4">
-            <h2 className="text-center">Edit Recipe</h2>
+            <h2 className="text-center text-custom fs-2 pb-3">Edit Recipe</h2>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="mb-3">
                     <label className="form-label">Title</label>
-                    <input type="text" className="form-control" value={title} onChange={(e) => setTitle(e.target.value)} required />
+                    <input type="text" className="form-control text-start" value={title} onChange={(e) => setTitle(e.target.value)} required />
                 </div>
 
                 <div className="mb-3">
@@ -140,7 +140,7 @@ const EditRecipe = () => {
                         <input
                             key={index}
                             type="text"
-                            className="form-control mb-2"
+                            className="form-control  text-start mb-2"
                             value={step}
                             onChange={(e) => handleStepChange(index, e.target.value)}
                         />
@@ -192,7 +192,7 @@ const EditRecipe = () => {
 
                 {/* Video Link */}
                 <div className="mb-3">
-                    <label className="form-label">YouTube Video Link (Optional)</label>
+                    <label className="form-label">YouTube Video Link</label>
                     <input type="url" className="form-control" value={videoLink} onChange={(e) => setVideoLink(e.target.value)} placeholder="Enter YouTube video URL" />
                 </div>
 
