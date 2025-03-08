@@ -1,5 +1,7 @@
 const express = require("express");
-const { addRecipe, getRecipes, searchRecipes, getRecipeById, getRecipesByCategory, getUserRecipes, deleteRecipe, updateRecipe } = require("../controllers/recipeController");
+const { addRecipe, getRecipes, searchRecipes, getRecipeById, getRecipesByCategory,
+    getUserRecipes, deleteRecipe, updateRecipe, addComment, getComments
+} = require("../controllers/recipeController");
 const authMiddleware = require("../middleware/authMiddleware");
 const multer = require("multer");
 const path = require("path");
@@ -23,9 +25,10 @@ router.get("/search", searchRecipes);
 router.get("/view/:id", getRecipeById);
 router.get("/category/:category", getRecipesByCategory);
 router.get("/my-recipes", authMiddleware, getUserRecipes);
-// router.put('/edit/:id', authMiddleware, updateRecipe);
-router.put('/edit/:id', upload.single('image'), updateRecipe);
+router.put("/edit/:id", upload.single('image'), updateRecipe);
 router.delete("/delete/:id", authMiddleware, deleteRecipe);
+router.post("/:recipeId/addComment", authMiddleware, addComment);
+router.get("/:recipeId/getComments", getComments);
 
 
 module.exports = router;

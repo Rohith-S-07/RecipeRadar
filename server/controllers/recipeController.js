@@ -237,14 +237,11 @@ const deleteRecipe = async (req, res) => {
     }
 };
 
-
 // Update a recipe
 const updateRecipe = async (req, res) => {
     try {
         const { id } = req.params;
         const updateData = req.body;
-
-        console.log("Updata data: ", req.body);
 
         if (req.file) {
             updateData.image = req.file.path.startsWith("/") ? req.file.path : `/${req.file.path}`;
@@ -262,6 +259,54 @@ const updateRecipe = async (req, res) => {
     }
 };
 
+const addComment = async (req, res) => {
+    try {
+        const { recipeId } = req.params;
+        const { text } = req.body;
+        const userID = req.user.id;
+        const userName = req.user.name;
+        const profilePicture = req.user.profilePicture;
 
+        if (!text) {
+            return res.status(400).json({ message: "Comment cannot be empty" });
+        }
 
-module.exports = { addRecipe, getRecipes, searchRecipes, getRecipeById, getRecipesByCategory, getUserRecipes, updateRecipe, deleteRecipe };
+        const recipe = await Recipe.findById(recipeId);
+        if (!recipe) {
+            return res.status(404).json({ message: "Recipe not found" });
+        }
+
+        const newComment = { userID, userName, profilePicture, text, createdAt: new Date() };
+
+        recipe.comments.push(newComment);
+
+        await recipe.save();
+
+        res.status(201).json({ message: "Comment added successfully", comment: newComment });
+    } catch (error) {
+        console.error("Error adding comment:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const getComments = async (req, res) => {
+    try {
+        const { recipeId } = req.params;
+        const recipe = await Recipe.findById(recipeId).select("comments");
+
+        if (!recipe) {
+            return res.status(404).json({ message: "Recipe not found" });
+        }
+
+        res.status(200).json(recipe.comments);
+    } catch (error) {
+        console.error("Error fetching comments:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+module.exports = {
+    addRecipe, getRecipes, searchRecipes, getRecipeById,
+    getRecipesByCategory, getUserRecipes, updateRecipe, deleteRecipe,
+    addComment, getComments
+};

@@ -45,6 +45,7 @@ const AddRecipe = ({ handleAddRecipe }) => {
     ];
 
     const userData = JSON.parse(localStorage.getItem('userData'));
+    
     useEffect(() => {
         if (!userData) {
             navigate('/')

@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 
+const commentSchema = new mongoose.Schema({
+    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    userName: { type: String, required: true },
+    text: { type: String, required: true },
+    profilePicture: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+});
+
 const recipeSchema = new mongoose.Schema({
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
@@ -24,6 +32,7 @@ const recipeSchema = new mongoose.Schema({
         calcium: { type: Number, default: 0 },
         iron: { type: Number, default: 0 },
     },
+    comments: [commentSchema], 
     createdAt: { type: Date, default: Date.now },
 });
 

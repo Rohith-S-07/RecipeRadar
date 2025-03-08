@@ -111,7 +111,9 @@ const EditRecipe = () => {
             });
 
             setNotification({ isOpen: true, message: "Recipe updated successfully!" });
-            navigate(`/recipes/view/${id}`);
+            setTimeout(()=>{
+                navigate(`/recipes/view/${id}`)
+            },1000);
 
         } catch (error) {
             console.error("Error updating recipe:", error);
@@ -193,7 +195,7 @@ const EditRecipe = () => {
                 {/* Video Link */}
                 <div className="mb-3">
                     <label className="form-label">YouTube Video Link</label>
-                    <input type="url" className="form-control" value={videoLink} onChange={(e) => setVideoLink(e.target.value)} placeholder="Enter YouTube video URL" />
+                    <input type="url" className="form-control text-start" value={videoLink} onChange={(e) => setVideoLink(e.target.value)} placeholder="Enter YouTube video URL" />
                 </div>
 
                 <button type="submit" className="btn btn-success w-100 mb-3">Update Recipe</button>
