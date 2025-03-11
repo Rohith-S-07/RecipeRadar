@@ -5,6 +5,8 @@ logs
 # Dependency directory
 node_modules/
 
+.env
+
 # Build output
 dist/
 build/

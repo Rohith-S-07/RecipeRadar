@@ -13,6 +13,7 @@ const ViewRecipe = () => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [notification, setNotification] = useState({ isOpen: false, message: '' });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const commentRef = useRef(null);
 
@@ -64,6 +65,7 @@ const ViewRecipe = () => {
         };
 
         try {
+            setIsSubmitting(true);
             const token = localStorage.getItem("authToken");
             if (!token) {
                 setNotification({ isOpen: true, message: 'Please Login in to Continue!' });
@@ -80,9 +82,12 @@ const ViewRecipe = () => {
             );
 
             setNewComment("");
-            fetchComments();
+            await fetchComments();
+            commentRef.current?.scrollIntoView({ behavior: "smooth" });
         } catch (error) {
             console.error("Error adding comment:", error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -100,7 +105,7 @@ const ViewRecipe = () => {
                         <i className="bi bi-bookmark-heart-fill text-danger fs-2"></i>
                     </span>
                     <section className="row mb-2 align-items-center justify-content-between">
-                        <div className="col-md-5 d-flex flex-column">
+                        <div className="col-md-4 d-flex flex-column">
                             <img
                                 src={`${config.BASE_URL}${recipe.image}`}
                                 alt={recipe.title}
@@ -108,7 +113,7 @@ const ViewRecipe = () => {
                             />
                         </div>
 
-                        <div className="col-md-7 mt-3 text-center">
+                        <div className="col-md-8 mt-3 text-center">
                             <h1 className='text-custom pb-3'>{recipe.title}</h1>
                             <h3 className='fw-light ps-3 fs-5'>{recipe.authorName || 'Anonymous'}</h3>
                             <p className="text-secondary fs-6">{new Date(recipe.createdAt).toLocaleDateString('en-US', {
@@ -121,17 +126,14 @@ const ViewRecipe = () => {
                                 <i className="fa-regular fa-star"></i>
                                 <span className="text-secondary ms-2">(12)</span>
                             </div>
+                            <p className='text-dark p-2 text-center'>
+                                {recipe.description}
+                            </p>
                         </div>
 
                     </section>
 
                     <div className="row mt-4">
-
-                        <hr />
-                        <p className='text-dark p-2 text-center'>
-                            {recipe.description}
-                        </p>
-
                         {/* Additional Recipe Details */}
                         <div className="row mt-4">
                             <div className="col-md-4 text-center">
@@ -252,7 +254,7 @@ const ViewRecipe = () => {
                     </div>
 
                     {/* Embed YouTube Video Section */}
-                    {recipe.videoLink && extractYouTubeID(recipe.videoLink) && (
+                    {recipe.videoLink && extractYouTubeID(recipe.videoLink) ? (
                         <div className="mt-4 mb-3">
                             <h4 className="fw-semibold fs-4 text-dark">Watch Video 🎥</h4>
                             <div className="d-flex justify-content-center">
@@ -267,7 +269,10 @@ const ViewRecipe = () => {
                                 ></iframe>
                             </div>
                         </div>
-                    )}
+                    ) : (
+                        <p className="text-secondary mt-3">Video not available for this recipe.</p>
+                    )
+                    }
 
                     {/* Comments Section */}
                     <div className="comments-section mt-5">
@@ -293,8 +298,14 @@ const ViewRecipe = () => {
                                 onChange={(e) => setNewComment(e.target.value)}
                                 ref={commentRef}
                             ></input>
-                            <button onClick={handleAddComment} className="btn btn-primary rounded-circle ms-2 py-2">
-                                <i className="bi bi-send"></i>
+                            <button onClick={handleAddComment}
+                                className="btn btn-primary rounded-circle ms-2 py-2"
+                                disabled={isSubmitting}>
+                                {isSubmitting ? (
+                                    <i className="spinner-border spinner-border-sm"></i>
+                                ) : (
+                                    <i className="bi bi-send"></i>
+                                )}
                             </button>
                         </div>
 
@@ -305,15 +316,15 @@ const ViewRecipe = () => {
                             ) : (
                                 <>
                                     {comments.map((comment, index) => (
-                                        <div key={index} className="p-2">
-                                            <div className="row">
-                                                <div className="col-1 text-end">
+                                        <div key={index} className="">
+                                            <div className="d-flex">
+                                                <div className="text-end">
                                                     <img src={`${config.BASE_URL}/${comment.profilePicture}`}
                                                         alt={comment.userName}
                                                         className="rounded-circle me-2"
                                                         style={{ width: "40px", height: "40px", objectFit: "cover" }} />
                                                 </div>
-                                                <div className="col-11 ps-2">
+                                                <div className="ms-2">
                                                     <strong className="custom-primary-text">{comment.userName}</strong>
                                                     <p className="mb-1">{comment.text}</p>
                                                     <small className="text-muted">

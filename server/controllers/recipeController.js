@@ -330,7 +330,8 @@ const generateCommentSummary = async (comments) => {
                             text: `Summarize the following user comments for a recipe in a neutral and structured tone as a summary.
                             Avoid using words like "customers" or "these reviews" or "feedback." Instead, refer to individuals as people 
                             who tried the recipe. Focus on aspects such as taste, texture, ease of preparation, and overall cooking experience. 
-                            Format the response as a single paragraph in about 50 - 100 words without headings or bold text.
+                            Format the response as a single paragraph in about 30 to 70 words without headings or bold text. Exclude additional 
+                            tips, modifications, or unrelated details. Avoid including suggestions, ingredient variations, or preparation tips.
                             User reviews: 
                             "${commentTexts}"`
                         }
