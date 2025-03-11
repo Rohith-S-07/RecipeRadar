@@ -8,6 +8,9 @@ yarn-error.log*
 # Node modules
 node_modules/
 
+# Environment variables
+**/.env
+
 # Dependency directories
 client/node_modules/
 server/node_modules/
