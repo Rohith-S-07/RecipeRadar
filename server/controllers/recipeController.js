@@ -2,7 +2,8 @@ const axios = require('axios');
 const Recipe = require("../models/Recipe");
 const qs = require('qs');
 
-const SPOONACULAR_API_KEY = '5fab7b46f2964aef89cf3c2eedb990a5';
+const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY;
+const GOOGLE_GEMINI_API_KEY = process.env.GOOGLE_GEMINI_API_KEY;
 
 const getNutritionData = async (ingredients) => {
     try {
@@ -280,6 +281,12 @@ const addComment = async (req, res) => {
 
         recipe.comments.push(newComment);
 
+        // Generate a new summary
+        const updatedSummary = await generateCommentSummary(recipe.comments);
+
+        // Save updated summary in the database
+        recipe.summary = updatedSummary;
+
         await recipe.save();
 
         res.status(201).json({ message: "Comment added successfully", comment: newComment });
@@ -302,6 +309,43 @@ const getComments = async (req, res) => {
     } catch (error) {
         console.error("Error fetching comments:", error);
         res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const generateCommentSummary = async (comments) => {
+    if (comments.length === 0) {
+        return "No reviews yet.";
+    }
+
+    const commentTexts = comments.map(comment => comment.text).join("\n");
+
+    try {
+        const response = await axios.post(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GOOGLE_GEMINI_API_KEY}`,
+            {
+                contents: [{
+                    role: "user",
+                    parts: [
+                        {
+                            text: `Summarize the following user comments for a recipe in a neutral and structured tone as a summary.
+                            Avoid using words like "customers" or "these reviews" or "feedback." Instead, refer to individuals as people 
+                            who tried the recipe. Focus on aspects such as taste, texture, ease of preparation, and overall cooking experience. 
+                            Format the response as a single paragraph in about 50 - 100 words without headings or bold text.
+                            User reviews: 
+                            "${commentTexts}"`
+                        }
+                    ]
+                }]
+            },
+            {
+                headers: { "Content-Type": "application/json" }
+            }
+        );
+
+        return response.data.candidates[0]?.content?.parts[0]?.text;
+    } catch (error) {
+        console.error("Error generating summary:", error.response?.data || error.message);
+        return "Summary generation failed.";
     }
 };
 

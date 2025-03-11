@@ -33,6 +33,7 @@ const recipeSchema = new mongoose.Schema({
         iron: { type: Number, default: 0 },
     },
     comments: [commentSchema], 
+    summary: { type: String},
     createdAt: { type: Date, default: Date.now },
 });
 

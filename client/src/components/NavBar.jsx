@@ -6,6 +6,7 @@ import NotificationModal from "./Modals/NotificationModal";
 import ConfirmationModal from "./Modals/ConfirmationModal";
 
 import RecipeLogo from "../assets/images/recipe-radar-new.png";
+import { Collapse } from "bootstrap";
 
 const NavBar = () => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const NavBar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
-    const [navbarOpen, setNavbarOpen] = useState(false); // Track navbar state
+    const [navbarOpen, setNavbarOpen] = useState(false);
 
     // Check if the user is logged in
     useEffect(() => {
@@ -26,11 +27,10 @@ const NavBar = () => {
     // Toggle dropdown
     const toggleDropdown = () => {
         if (dropdownOpen) {
-            // Play closing animation before actually hiding
             document.querySelector(".dropdown-menu").classList.add("hide");
             setTimeout(() => {
                 setDropdownOpen(false);
-            }, 400); // Wait for animation to finish
+            }, 400);
         } else {
             setDropdownOpen(true);
         }
@@ -39,8 +39,13 @@ const NavBar = () => {
     // Close Navbar when clicking a link (Mobile View)
     const closeNavbar = () => {
         setNavbarOpen(false);
-        setDropdownOpen(false)
-        document.getElementById("navbarNav").classList.remove("show");
+        setDropdownOpen(false);
+
+        const navbarElement = document.getElementById("navbarNav");
+        if (navbarElement) {
+            const bsCollapse = new Collapse(navbarElement, { toggle: false });
+            bsCollapse.hide();
+        }
     };
 
     // Logout Function
@@ -51,7 +56,7 @@ const NavBar = () => {
         setDropdownOpen(false);
         setShowNotification(true);
         setTimeout(() => {
-            closeNavbar(); // Close navbar
+            closeNavbar();
             navigate("/signin");
         }, 1000);
     };
@@ -73,12 +78,16 @@ const NavBar = () => {
                     <button
                         className="navbar-toggler"
                         type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                        aria-controls="navbarNav"
                         aria-expanded={navbarOpen}
                         aria-label="Toggle navigation"
-                        onClick={() => setNavbarOpen(!navbarOpen)}
+                        onClick={() => {
+                            setNavbarOpen(!navbarOpen);
+                            const navbarElement = document.getElementById("navbarNav");
+                            if (navbarElement) {
+                                const bsCollapse = new Collapse(navbarElement);
+                                navbarOpen ? bsCollapse.hide() : bsCollapse.show();
+                            }
+                        }}
                     >
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -178,7 +187,6 @@ const NavBar = () => {
                 </div>
             </nav>
 
-            {/* Logout Confirmation Modal */}
             <ConfirmationModal
                 isOpen={showLogoutModal}
                 onRequestClose={() => setShowLogoutModal(false)}
@@ -186,7 +194,6 @@ const NavBar = () => {
                 message="Are you sure you want to log out?"
             />
 
-            {/* Notification Modal for Logout */}
             <NotificationModal
                 isOpen={showNotification}
                 onRequestClose={() => setShowNotification(false)}

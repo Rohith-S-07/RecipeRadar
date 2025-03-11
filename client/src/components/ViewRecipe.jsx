@@ -4,6 +4,7 @@ import axios from "axios";
 import config from "../config";
 import NotificationModal from './Modals/NotificationModal';
 import LottiePlayer from "./LottiePlayer";
+import AiLogo from '../assets/images/chat-gpt.png'
 
 const ViewRecipe = () => {
     const navigate = useNavigate();
@@ -78,7 +79,6 @@ const ViewRecipe = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
-            setNotification({ isOpen: true, message: 'Comment added successfully' });
             setNewComment("");
             fetchComments();
         } catch (error) {
@@ -226,7 +226,6 @@ const ViewRecipe = () => {
                             </div>
 
                         </div>
-                        <hr />
                     </div>
 
                     {/* Steps Section */}
@@ -272,14 +271,24 @@ const ViewRecipe = () => {
 
                     {/* Comments Section */}
                     <div className="comments-section mt-5">
-                        <h4 className="fw-semibold text-dark fs-4">Comments 📝</h4>
-
+                        <h4 className="fw-semibold text-dark fs-4"> {comments.length} Comment{comments.length == 1 ? '' : 's'} 📝</h4>
+                        {recipe.summary && (
+                            <div className="custom-primary-text fs-5">
+                                <span>Cooks say</span>
+                                <img
+                                    src={AiLogo}
+                                    alt="AI-generated summary"
+                                    height={15}
+                                    className="ms-1"
+                                />
+                                <p className="fs-6 text-dark mx-2 mb-0">{recipe.summary}</p>
+                            </div>
+                        )}
                         {/* Comment Input */}
-                        <div className="mb-1 d-flex">
+                        <div className="mb-1 d-flex mt-3">
                             <input
                                 className="form-control text-start"
-                                rows="2"
-                                placeholder="Write a comment..."
+                                placeholder="Add a comment..."
                                 value={newComment}
                                 onChange={(e) => setNewComment(e.target.value)}
                                 ref={commentRef}
@@ -295,18 +304,16 @@ const ViewRecipe = () => {
                                 <p className="text-secondary">No comments yet. Be the first to comment!</p>
                             ) : (
                                 <>
-                                    <p> {comments.length} Comment{comments.length==1 ? '' : 's'}</p>
-                                    <hr />
                                     {comments.map((comment, index) => (
                                         <div key={index} className="p-2">
                                             <div className="row">
-                                                <div className="col-1">
+                                                <div className="col-1 text-end">
                                                     <img src={`${config.BASE_URL}/${comment.profilePicture}`}
                                                         alt={comment.userName}
                                                         className="rounded-circle me-2"
                                                         style={{ width: "40px", height: "40px", objectFit: "cover" }} />
                                                 </div>
-                                                <div className="col-11">
+                                                <div className="col-11 ps-2">
                                                     <strong className="custom-primary-text">{comment.userName}</strong>
                                                     <p className="mb-1">{comment.text}</p>
                                                     <small className="text-muted">
@@ -314,7 +321,6 @@ const ViewRecipe = () => {
                                                     </small>
                                                 </div>
                                             </div>
-                                            <hr />
                                         </div>
                                     ))}
                                 </>
