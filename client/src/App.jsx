@@ -22,11 +22,13 @@ import Chat from './components/Chat'
 import NotFound from './components/NotFound';
 
 
-import './assets/styles/Main.css'
-import './assets/styles/Recipes.css'
-import './assets/styles/Categories.css'
-import './assets/styles/DialogBoxes.css'
 import './assets/styles/NavBar.css';
+import './assets/styles/Main.css'
+import './assets/styles/DialogBoxes.css'
+import './assets/styles/Categories.css'
+import './assets/styles/Recipes.css'
+import './assets/styles/ViewRecipe.css'
+
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'

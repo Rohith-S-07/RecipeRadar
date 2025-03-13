@@ -1,0 +1,60 @@
+.wishlist-btn {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  transition: scale 200ms linear;
+  font-size: 2.2rem;
+}
+
+.wishlist-btn:hover{
+  scale: 1.1;
+  text-shadow: 1px 1px 1px rgb(115, 52, 52);
+}
+
+.tags {
+  background-color: var(--primary);
+  padding: 5px 8px;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0.5px 0.5px 1px gray;
+  margin-right: 5px;
+  font-weight: 500;
+  padding-top: 4px;
+  font-family: monospace;
+}
+
+.steps-badge {
+  color: white;
+  background-color: var(--primary);
+  padding: 5px 10px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.steps-step {
+  margin-left: 10px;
+  font-size: 1.2rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.comments-section {
+  background-color: rgba(243, 242, 242, 0.9);
+  border-radius: 10px;
+  box-shadow: 1px 1px 1px gray;
+  padding: 10px;
+}
+
+@media (max-width: 480px) {
+  .steps-badge {
+    padding: 5px 10px;
+    font-size: 1.2rem;
+  }
+
+  .steps-step {
+    margin-left: 7px;
+    font-size: 1.2rem;
+  }
+}

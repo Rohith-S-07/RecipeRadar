@@ -130,7 +130,7 @@ const NavBar = () => {
                                     {dropdownOpen && (
                                         <div className="dropdown-menu show">
                                             <button
-                                                className="dropdown-item"
+                                                className="dropdown-item d-none"
                                                 onClick={() => {
                                                     closeNavbar();
                                                     navigate('/profile');

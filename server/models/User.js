@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Recipe = require('../models/Recipe')
 
 const UserSchema = new mongoose.Schema(
   {
@@ -7,6 +8,7 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     description: { type: String },
     profilePicture: { type: String },
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }]
   },
   { timestamps: true }
 );

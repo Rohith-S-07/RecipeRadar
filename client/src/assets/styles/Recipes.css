@@ -132,7 +132,6 @@
   color: white;
   padding: 2px 5px;
   font-size: 16px;
-  /* letter-spacing: 1px; */
 }
 
 /* Search Results */
@@ -193,17 +192,12 @@
   border-radius: 50%;
 }
 
-.wishlist-btn {
-  position: absolute;
-  right: 20px;
-}
-
 /* My Recipes Card */
 .my-recipe-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  height: 65vh;
   gap: 20px;
 }
 
@@ -211,7 +205,7 @@
   position: relative;
   background-color: white;
   padding: 5px;
-  height: 280px;
+  height: 260px;
   width: 180px;
   text-align: center;
   margin-bottom: 15px;
@@ -229,19 +223,22 @@
   border-radius: 10px;
 }
 
-.my-recipe-ratings {
+/* .my-recipe-ratings {
   margin-top: 5px;
-}
+} */
 
 .my-recipe-title {
-  /* font-family: "Pacifico", serif; */
   margin: 0 auto;
   margin-top: 5px;
   width: fit-content;
-  /* background: var(--primary); */
   border-radius: 3px;
   padding: 2px 5px;
-  font-size: 18px;
+  font-size: 17px;
+  color: var(--primary);
+}
+
+.my-recipe-date{
+  font-size: 13px;
 }
 
 .my-recipes-menu{

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import config from "../config";
 import NotificationModal from './Modals/NotificationModal';
+import RatingModal from './Modals/RatingModal';
 import LottiePlayer from "./LottiePlayer";
 import AiLogo from '../assets/images/chat-gpt.png'
 
@@ -14,12 +15,17 @@ const ViewRecipe = () => {
     const [newComment, setNewComment] = useState("");
     const [notification, setNotification] = useState({ isOpen: false, message: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [userRating, setUserRating] = useState(0);
+    const [averageRating, setAverageRating] = useState(0);
+    const [totalRatings, setTotalRatings] = useState(0);
+    const [showRatingModal, setShowRatingModal] = useState(false);
+    const [isWishlisted, setIsWishlisted] = useState(false);
+    const token = localStorage.getItem("authToken");
 
     const commentRef = useRef(null);
 
     const extractYouTubeID = (url) => {
         if (!url) return null;
-
         let videoID = null;
         const regex = /(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w-]{11})/;
         const match = url.match(regex);
@@ -27,13 +33,13 @@ const ViewRecipe = () => {
         if (match && match[1]) {
             videoID = match[1];
         }
-
         return videoID;
     };
 
     useEffect(() => {
         fetchRecipe();
         fetchComments();
+        fetchWishlistStatus();
         setTimeout(() => {
             document.documentElement.style.overflowY = "auto";
         }, 100);
@@ -43,6 +49,18 @@ const ViewRecipe = () => {
         try {
             const response = await axios.get(`${config.BASE_URL}/recipes/view/${id}`);
             setRecipe(response.data);
+
+            const ratingResponse = await axios.get(`${config.BASE_URL}/recipes/${id}/ratings`);
+            setAverageRating(ratingResponse.data.averageRating);
+            setTotalRatings(ratingResponse.data.totalRatings);
+
+            if (token) {
+                const userRatingResponse = await axios.get(
+                    `${config.BASE_URL}/recipes/${id}/userRating`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                setUserRating(userRatingResponse.data.rating || 0);
+            }
         } catch (error) {
             console.error("Error fetching recipe:", error);
         }
@@ -59,19 +77,18 @@ const ViewRecipe = () => {
 
     const handleAddComment = async () => {
         if (!newComment.trim()) {
-            // setNotification({ isOpen: true, message: 'Comment cannot be empty!' })
             commentRef.current?.focus();
             return
         };
 
         try {
             setIsSubmitting(true);
-            const token = localStorage.getItem("authToken");
+
             if (!token) {
                 setNotification({ isOpen: true, message: 'Please Login in to Continue!' });
                 setTimeout(() => {
                     navigate('/signin');
-                }, 500);
+                }, 1000);
                 return;
             }
 
@@ -91,9 +108,74 @@ const ViewRecipe = () => {
         }
     };
 
+    const handleRatingSubmit = async (ratingValue) => {
+        try {
+            if (!token) {
+                setNotification({ isOpen: true, message: 'Please Login to Continue!' });
+                return;
+            }
+
+            await axios.post(
+                `${config.BASE_URL}/recipes/${id}/addRating`,
+                { rating: ratingValue },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            setUserRating(ratingValue);
+            const ratingResponse = await axios.get(`${config.BASE_URL}/recipes/${id}/ratings`);
+            setAverageRating(ratingResponse.data.averageRating);
+            setTotalRatings(ratingResponse.data.totalRatings);
+
+            setNotification({ isOpen: true, message: "Rating submitted successfully!" });
+        } catch (error) {
+            console.error("Error submitting rating:", error);
+        }
+    };
+
+    const fetchWishlistStatus = async () => {
+        try {
+            if (!token) return;
+
+            const response = await axios.get(`${config.BASE_URL}/wishlist/status/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            setIsWishlisted(response.data.isWishlisted);
+        } catch (error) {
+            console.error("Error fetching wishlist status:", error);
+        }
+    };
+
+    const handleWishlistToggle = async () => {
+        try {
+
+            if (!token) {
+                setNotification({ isOpen: true, message: 'Please login to continue' });
+                return;
+            }
+
+            if (isWishlisted) {
+                await axios.delete(`${config.BASE_URL}/wishlist/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setNotification({ isOpen: true, message: 'Removed from Saved Recipes!' });
+            } else {
+                await axios.post(`${config.BASE_URL}/wishlist/${id}`, {}, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setNotification({ isOpen: true, message: 'Added to Saved Recipes!' });
+            }
+
+            setIsWishlisted(!isWishlisted); // Toggle wishlist state
+        } catch (error) {
+            console.error("Error updating wishlist:", error);
+            setNotification({ isOpen: true, message: 'Failed to update Saved Recipes!' });
+        }
+    };
+
     return (
-        <div className="recipe-page m-3 p-3">
-            {recipe === null ? (
+        <div className="recipe-page m-3 p-3 page-content">
+            {!recipe ? (
                 <div className="text-muted text-center">
                     <LottiePlayer src="https://lottie.host/10236891-3b0a-4744-be9f-74e8fd54026d/in2dZGOmWu.lottie" />
                     <br />
@@ -101,10 +183,16 @@ const ViewRecipe = () => {
                 </div>
             ) : (
                 <>
-                    <span className="wishlist-btn">
-                        <i className="bi bi-bookmark-heart-fill text-danger fs-2"></i>
+                    <span
+                        className={`wishlist-btn text-danger`}
+                        onClick={handleWishlistToggle}
+                    >
+                        <i className={`bi ${isWishlisted ? 'bi-bookmark-heart-fill' : 'bi-bookmark-heart'}`} />
                     </span>
+
+
                     <section className="row mb-2 align-items-center justify-content-between">
+                        {/* Image Container */}
                         <div className="col-md-4 d-flex flex-column">
                             <img
                                 src={`${config.BASE_URL}${recipe.image}`}
@@ -113,19 +201,34 @@ const ViewRecipe = () => {
                             />
                         </div>
 
+                        {/* Details Container */}
                         <div className="col-md-8 mt-3 text-center">
                             <h1 className='text-custom pb-3'>{recipe.title}</h1>
                             <h3 className='fw-light ps-3 fs-5'>{recipe.authorName || 'Anonymous'}</h3>
                             <p className="text-secondary fs-6">{new Date(recipe.createdAt).toLocaleDateString('en-US', {
                                 year: 'numeric', month: 'long', day: 'numeric'
                             })}</p>
+
                             <div className='text-warning ratings'>
-                                <b className='text-dark me-2'> 4.2</b>
-                                <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
-                                <i className="fa-regular fa-star"></i>
-                                <span className="text-secondary ms-2">(12)</span>
+                                <b className='text-dark me-2'>{totalRatings > 0 ? Number(averageRating).toFixed(1) : ' '}</b>
+                                {[1, 2, 3, 4, 5].map((value) => (
+                                    <i
+                                        key={value}
+                                        className={
+                                            value <= Math.floor(Number(averageRating))
+                                                ? "fa-solid fa-star"
+                                                : value === Math.ceil(Number(averageRating)) && !Number.isInteger(Number(averageRating))
+                                                    ? "fa-solid fa-star-half-stroke"
+                                                    : "fa-regular fa-star"
+                                        }
+                                    />
+                                ))}
+                                <span className="text-secondary ms-2">
+                                    ({totalRatings} rating{totalRatings !== 1 ? 's' : ''})
+                                </span>
                             </div>
+
+
                             <p className='text-dark p-2 text-center'>
                                 {recipe.description}
                             </p>
@@ -133,7 +236,7 @@ const ViewRecipe = () => {
 
                     </section>
 
-                    <div className="row mt-4">
+                    <div className="row">
                         {/* Additional Recipe Details */}
                         <div className="row mt-4">
                             <div className="col-md-4 text-center">
@@ -164,12 +267,16 @@ const ViewRecipe = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {recipe.ingredients.map((ingredient, index) => (
+                                        {recipe?.ingredients?.map((ingredient, index) => (
                                             <tr key={index}>
                                                 <td>{ingredient.name}</td>
                                                 <td>{ingredient.quantity}</td>
                                             </tr>
-                                        ))}
+                                        )) || (
+                                                <tr>
+                                                    <td colSpan="2" className="text-center text-muted">No ingredients available</td>
+                                                </tr>
+                                            )}
                                     </tbody>
                                 </table>
                             </div>
@@ -236,8 +343,8 @@ const ViewRecipe = () => {
                         <div className="list-group list-group-flush mt-3">
                             {recipe.steps.map((step, index) => (
                                 <p key={index} className="list-item">
-                                    <span className="custom-bg-primary text-light ps-2 pe-1 py-1 rounded-circle">{index + 1} </span>
-                                    <span className="ms-2 fs-5">{step}</span>
+                                    <span className="steps-badge">{index + 1}</span>
+                                    <span className="steps-step">{step}</span>
                                 </p>
                             ))}
                         </div>
@@ -246,9 +353,9 @@ const ViewRecipe = () => {
                     {/* Tags Section */}
                     <div className="mt-4">
                         <div className="d-flex flex-wrap gap-2">
-                            <h5 className="fw-semibold text-dark">🏷 Tags</h5>
+                            <h5 className="fw-semibold text-dark me-2">Tags 🏷</h5>
                             {recipe.tags.map((tag, index) => (
-                                <span key={index} className="badge bg-primary px-3 fs-6">{tag}</span>
+                                <span key={index} className="tags">{tag}</span>
                             ))}
                         </div>
                     </div>
@@ -275,8 +382,23 @@ const ViewRecipe = () => {
                     }
 
                     {/* Comments Section */}
-                    <div className="comments-section mt-5">
-                        <h4 className="fw-semibold text-dark fs-4"> {comments.length} Comment{comments.length == 1 ? '' : 's'} 📝</h4>
+                    <div className="comments-section mt-3">
+                        <div className="d-flex justify-content-between">
+                            <h4 className="fw-semibold text-dark fs-4"> {comments.length} Comment{comments.length == 1 ? '' : 's'} 📝</h4>
+
+                            {/* Rating Button */}
+                            <div className="rating-section">
+                                <button
+                                    className="btn btn-warning d-flex align-items-center gap-2 rounded-pill shadow-sm text-white"
+                                    onClick={() => setShowRatingModal(true)}
+                                >
+                                    <i className="bi bi-star-fill fs-6"></i>
+                                    <span className="fw-semibold">Give Rating</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* AI Summary */}
                         {recipe.summary && (
                             <div className="custom-primary-text fs-5">
                                 <span>Cooks say</span>
@@ -289,6 +411,7 @@ const ViewRecipe = () => {
                                 <p className="fs-6 text-dark mx-2 mb-0">{recipe.summary}</p>
                             </div>
                         )}
+
                         {/* Comment Input */}
                         <div className="mb-1 d-flex mt-3">
                             <input
@@ -344,6 +467,13 @@ const ViewRecipe = () => {
                         isOpen={notification.isOpen}
                         onRequestClose={() => setNotification({ isOpen: false, message: '' })}
                         message={notification.message}
+                    />
+
+                    <RatingModal
+                        isOpen={showRatingModal}
+                        onRequestClose={() => setShowRatingModal(false)}
+                        onSubmitRating={handleRatingSubmit}
+                        userRating={userRating}
                     />
                 </>
             )}

@@ -32,8 +32,12 @@ const recipeSchema = new mongoose.Schema({
         calcium: { type: Number, default: 0 },
         iron: { type: Number, default: 0 },
     },
-    comments: [commentSchema], 
-    summary: { type: String},
+    comments: [commentSchema],
+    summary: { type: String },
+    ratings: [{
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        rating: { type: Number, required: true }
+    }],    
     createdAt: { type: Date, default: Date.now },
 });
 

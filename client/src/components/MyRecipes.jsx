@@ -14,29 +14,36 @@ const MyRecipes = () => {
     const [showNotification, setShowNotification] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState("");
     const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+    const [showWishlist, setShowWishlist] = useState(false);  // Toggle state
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchMyRecipes = async () => {
-            try {
-                const token = localStorage.getItem("authToken");
-                if (!token) {
-                    navigate('/');
-                }
-                const response = await axios.get(`${config.BASE_URL}/recipes/my-recipes`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+        fetchRecipes();
+    }, [navigate, showWishlist]);
 
-                setRecipes(response.data);
-            } catch (error) {
-                console.error("Error fetching user recipes:", error);
-            } finally {
-                setLoading(false);
+    const fetchRecipes = async () => {
+        try {
+            const token = localStorage.getItem("authToken");
+            if (!token) {
+                navigate('/');
+                return;
             }
-        };
 
-        fetchMyRecipes();
-    }, [navigate]);
+            const endpoint = showWishlist
+                ? `${config.BASE_URL}/wishlist/recipes`
+                : `${config.BASE_URL}/recipes/my-recipes`;
+
+            const response = await axios.get(endpoint, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            setRecipes(response.data);
+        } catch (error) {
+            console.error(`Error fetching ${showWishlist ? "wishlist" : "user"} recipes:`, error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const confirmDelete = (recipeId) => {
         setSelectedRecipeId(recipeId);
@@ -64,7 +71,20 @@ const MyRecipes = () => {
 
     return (
         <div className="p-3">
-            <h2 className="text-stroke2 fs-2">My Recipes</h2>
+            <div className="d-flex justify-content-between align-items-center">
+                <h2 className="text-stroke2 fs-2">
+                    {showWishlist ? 'Saved Recipes' : 'My Creations'}
+                </h2>
+
+                {/* Toggle Button */}
+                <button
+                    className={`btn ${showWishlist ? 'custom-btn-primary text-white' : 'custom-btn-outline-primary'}`}
+                    onClick={() => setShowWishlist(!showWishlist)}
+                >
+                    {showWishlist ? 'Show My Creations' : 'Show Saved Recipes'}
+                </button>
+            </div>
+
             {loading ? (
                 <div className="text-muted text-center">
                     <LottiePlayer src="https://lottie.host/10236891-3b0a-4744-be9f-74e8fd54026d/in2dZGOmWu.lottie" />
@@ -75,35 +95,40 @@ const MyRecipes = () => {
                 <div className="my-recipe-container mt-3">
                     {recipes.map(recipe => (
                         <div key={recipe._id} className="my-recipe-card text-center position-relative">
-                            <div className="my-recipes-menu">
-                                <i className="bi bi-list"
-                                    style={{ cursor: "pointer" }}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setMenuOpen(menuOpen === recipe._id ? null : recipe._id);
-                                    }}
-                                ></i>
-                                {menuOpen === recipe._id && (
-                                    <div className="menu-dropdown">
-                                        <div
-                                            className="my-recipes-menu-item"
-                                            onClick={() => navigate(`/recipes/edit/${recipe._id}`)}
-                                        >
-                                            <i className="bi bi-pencil-fill menu-icon"></i>
+                            {!showWishlist && (
+                                <div className="my-recipes-menu">
+                                    <i className="bi bi-list"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setMenuOpen(menuOpen === recipe._id ? null : recipe._id);
+                                        }}
+                                    ></i>
+                                    {menuOpen === recipe._id && (
+                                        <div className="menu-dropdown">
+                                            <div
+                                                className="my-recipes-menu-item"
+                                                onClick={() => navigate(`/recipes/edit/${recipe._id}`)}
+                                            >
+                                                <i className="bi bi-pencil-fill menu-icon"></i>
+                                            </div>
+                                            <div
+                                                className="my-recipes-menu-item text-danger"
+                                                onClick={() => confirmDelete(recipe._id)}
+                                            >
+                                                <i className="bi bi-trash3-fill menu-icon"></i>
+                                            </div>
                                         </div>
-                                        <div
-                                            className="my-recipes-menu-item text-danger"
-                                            onClick={() => confirmDelete(recipe._id)}
-                                        >
-                                            <i className="bi bi-trash3-fill menu-icon"></i>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                                    )}
+                                </div>
+                            )}
 
                             <div onClick={() => navigate(`/recipes/view/${recipe._id}`)} style={{ cursor: "pointer" }}>
                                 <img src={`${config.BASE_URL}${recipe.image}`} alt={recipe.title} className="img-fluid" />
-                                <div className="my-recipe-title">{recipe.title}</div>
+                                <div className="my-recipe-title mt-0">{recipe.title}</div>
+                                <p className="text-secondary my-recipe-date mb-0">{new Date(recipe.createdAt).toLocaleDateString('en-US', {
+                                    year: 'numeric', month: 'long', day: 'numeric'
+                                })}</p>
                             </div>
                         </div>
                     ))}
@@ -112,17 +137,18 @@ const MyRecipes = () => {
                 <div className="text-muted text-center">
                     <LottiePlayer src="https://lottie.host/e9ab5ffe-f970-4d48-a59d-82747af4c1e7/1DMwFNP5bB.lottie" />
                     <br />
-                    You haven't added any recipes yet.
+                    {showWishlist &&
+                        "You haven't saved any recipes yet."}
                     <br />
-                    <button
-                        onClick={() => {
-                            navigate('/recipes/addrecipe');
-                        }}
-                        className='btn custom-btn-primary text-light mt-2'
-                    >
-                        <i className="bi bi-plus-circle me-2 mb-1 fs-3"></i>
-                        Add Now
-                    </button>
+                    {!showWishlist && (
+                        <button
+                            onClick={() => navigate('/recipes/addrecipe')}
+                            className='btn custom-btn-primary text-light mt-2'
+                        >
+                            <i className="bi bi-plus-circle me-2 mb-1 fs-3"></i>
+                            Add Now
+                        </button>
+                    )}
                 </div>
             )}
 

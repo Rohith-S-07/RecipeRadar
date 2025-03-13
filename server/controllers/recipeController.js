@@ -23,8 +23,8 @@ const getNutritionData = async (ingredients) => {
                 }
                 return `${ing.quantity} ${ing.name}`;
             })
-            .filter(Boolean) // Remove null/undefined values
-            .join('\n'); // Spoonacular expects newline-separated values
+            .filter(Boolean)
+            .join('\n');
 
         if (!ingredientList) {
             console.error("No valid ingredients to process.");
@@ -134,26 +134,39 @@ const addRecipe = async (req, res) => {
     }
 };
 
-// Get all recipes
+// Get all recipes with average rating
 const getRecipes = async (req, res) => {
     try {
         const recipes = await Recipe.find().populate("authorID", "name");
-        res.status(200).json(recipes);
+
+        // Add averageRating to each recipe
+        const recipesWithRatings = recipes.map((recipe) => {
+            const totalRatings = recipe.ratings.length;
+            const averageRating = totalRatings
+                ? (recipe.ratings.reduce((acc, r) => acc + r.rating, 0) / totalRatings).toFixed(1)
+                : "0.0";
+
+            return {
+                ...recipe.toObject(),
+                averageRating
+            };
+        });
+
+        res.status(200).json(recipesWithRatings);
     } catch (error) {
         console.error("Error fetching recipes:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Search recipes by title or tags
+// Search recipes by title or tags with average rating
 const searchRecipes = async (req, res) => {
     try {
-        const { query } = req.query; // Get the search query from URL
+        const { query } = req.query;
         if (!query) {
             return res.status(400).json({ message: "Search query is required" });
         }
 
-        // Search by title or tags (case insensitive)
         const recipes = await Recipe.find({
             $or: [
                 { title: { $regex: query, $options: "i" } },
@@ -161,7 +174,20 @@ const searchRecipes = async (req, res) => {
             ],
         });
 
-        res.status(200).json(recipes);
+        // Add averageRating to each recipe
+        const recipesWithRatings = recipes.map((recipe) => {
+            const totalRatings = recipe.ratings.length;
+            const averageRating = totalRatings
+                ? (recipe.ratings.reduce((acc, r) => acc + r.rating, 0) / totalRatings).toFixed(1)
+                : "0.0";
+
+            return {
+                ...recipe.toObject(),
+                averageRating
+            };
+        });
+
+        res.status(200).json(recipesWithRatings);
     } catch (error) {
         console.error("Error searching recipes:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -195,12 +221,27 @@ const getRecipesByCategory = async (req, res) => {
             tags: { $regex: category, $options: "i" }
         });
 
-        res.status(200).json(recipes);
+        // Add averageRating and totalRatings for each recipe
+        const recipesWithRatings = recipes.map(recipe => {
+            const totalRatings = recipe.ratings.length;
+            const averageRating = totalRatings
+                ? (recipe.ratings.reduce((acc, r) => acc + r.rating, 0) / totalRatings).toFixed(1)
+                : "0.0";
+
+            return {
+                ...recipe.toObject(),
+                averageRating,
+                totalRatings
+            };
+        });
+
+        res.status(200).json(recipesWithRatings);
     } catch (error) {
         console.error("Error fetching category recipes:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 const getUserRecipes = async (req, res) => {
     try {
@@ -350,8 +391,88 @@ const generateCommentSummary = async (comments) => {
     }
 };
 
+const addOrUpdateRating = async (req, res) => {
+    const { id } = req.params;
+    const { rating } = req.body;
+    const userId = req.user.id;
+
+    if (!rating || rating < 1 || rating > 5) {
+        return res.status(400).json({ message: "Invalid rating value. Please rate between 1 to 5." });
+    }
+
+    try {
+        const recipe = await Recipe.findById(id);
+        if (!recipe) return res.status(404).json({ message: "Recipe not found!" });
+
+        const existingRating = recipe.ratings.find(r => r.userId.toString() === userId);
+
+        if (existingRating) {
+            existingRating.rating = rating;  // Update existing rating
+        } else {
+            recipe.ratings.push({ userId, rating });  // Add new rating
+        }
+
+        await recipe.save();
+
+        // Calculate the new average rating
+        const totalRatings = recipe.ratings.length;
+        const averageRating = (
+            recipe.ratings.reduce((acc, r) => acc + r.rating, 0) / totalRatings
+        ).toFixed(1);
+
+        res.json({ averageRating, totalRatings });
+    } catch (error) {
+        console.error("Error adding rating:", error);
+        res.status(500).json({ message: "Error adding rating." });
+    }
+};
+
+// Get Recipe Ratings and Average
+const getRatings = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const recipe = await Recipe.findById(id);
+        if (!recipe) return res.status(404).json({ message: "Recipe not found!" });
+
+        const totalRatings = recipe.ratings.length;
+        const averageRating = (
+            recipe.ratings.reduce((acc, r) => acc + r.rating, 0) / totalRatings
+        ).toFixed(1);
+
+        res.json({ averageRating, totalRatings, ratings: recipe.ratings });
+    } catch (error) {
+        console.error("Error fetching ratings:", error);
+        res.status(500).json({ message: "Error fetching ratings." });
+    }
+};
+
+const getUserRating = async (req, res) => {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    try {
+        const recipe = await Recipe.findById(id);
+        if (!recipe) {
+            return res.status(404).json({ message: "Recipe not found!" });
+        }
+
+        const userRating = recipe.ratings.find(r => r.userId.toString() === userId);
+
+        if (!userRating) {
+            return res.status(200).json({ rating: 0 }); // Return 0 if no rating found
+        }
+
+        res.status(200).json({ rating: userRating.rating });
+    } catch (error) {
+        console.error("Error fetching user rating:", error);
+        res.status(500).json({ message: "Error fetching user rating." });
+    }
+};
+
+
 module.exports = {
     addRecipe, getRecipes, searchRecipes, getRecipeById,
     getRecipesByCategory, getUserRecipes, updateRecipe, deleteRecipe,
-    addComment, getComments
+    addComment, getComments, addOrUpdateRating, getRatings, getUserRating
 };

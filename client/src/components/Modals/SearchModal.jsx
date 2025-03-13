@@ -118,7 +118,7 @@ const SearchModal = ({ show, onClose }) => {
                                         <div className="search-recipe-title">{recipe.title}</div>
                                         <div className="text-warning search-rating">
                                             <i className="fa-solid fa-star"></i>
-                                            <span className="text-dark"> {recipe.rating || "4.0"}</span>
+                                            <span className="text-dark"> {recipe.averageRating || "4.0"}</span>
                                         </div>
                                     </div>
                                 </div>
