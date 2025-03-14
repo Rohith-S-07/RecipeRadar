@@ -6,6 +6,7 @@ import NotificationModal from './Modals/NotificationModal';
 import RatingModal from './Modals/RatingModal';
 import LottiePlayer from "./LottiePlayer";
 import AiLogo from '../assets/images/chat-gpt.png'
+import { Tooltip } from "bootstrap";
 
 const ViewRecipe = () => {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ const ViewRecipe = () => {
     const [totalRatings, setTotalRatings] = useState(0);
     const [showRatingModal, setShowRatingModal] = useState(false);
     const [isWishlisted, setIsWishlisted] = useState(false);
+
     const token = localStorage.getItem("authToken");
 
     const commentRef = useRef(null);
@@ -43,6 +45,12 @@ const ViewRecipe = () => {
         setTimeout(() => {
             document.documentElement.style.overflowY = "auto";
         }, 100);
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipTriggerList.forEach((tooltipTriggerEl) => {
+            new Tooltip(tooltipTriggerEl);
+        });
+
     }, []);
 
     const fetchRecipe = async () => {
@@ -166,7 +174,7 @@ const ViewRecipe = () => {
                 setNotification({ isOpen: true, message: 'Added to Saved Recipes!' });
             }
 
-            setIsWishlisted(!isWishlisted); // Toggle wishlist state
+            setIsWishlisted(!isWishlisted);
         } catch (error) {
             console.error("Error updating wishlist:", error);
             setNotification({ isOpen: true, message: 'Failed to update Saved Recipes!' });
@@ -183,12 +191,17 @@ const ViewRecipe = () => {
                 </div>
             ) : (
                 <>
-                    <span
-                        className={`wishlist-btn text-danger`}
+                    <button
+                        type="button"
+                        className="border-0 bg-transparent wishlist-btn text-danger"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="left"
+                        data-bs-custom-class="custom-tooltip"
+                        title={`${isWishlisted ? 'Remove from Saved' : 'Add to Saved'}`}
                         onClick={handleWishlistToggle}
                     >
                         <i className={`bi ${isWishlisted ? 'bi-bookmark-heart-fill' : 'bi-bookmark-heart'}`} />
-                    </span>
+                    </button>
 
 
                     <section className="row mb-2 align-items-center justify-content-between">

@@ -108,18 +108,22 @@ const SearchModal = ({ show, onClose }) => {
                     ) : (
                         <div className="search-recipe-container">
                             {recipes.map((recipe) => (
-                                <div key={recipe._id} className="mb-3">
-                                    <div
-                                        className="search-recipe-card text-center"
-                                        onClick={() => navigate(`/recipes/view/${recipe._id}`)}
-                                        style={{ cursor: "pointer" }}
-                                    >
-                                        <img src={`${config.BASE_URL}${recipe.image}`} alt={recipe.title} className="img-fluid" />
-                                        <div className="search-recipe-title">{recipe.title}</div>
-                                        <div className="text-warning search-rating">
-                                            <i className="fa-solid fa-star"></i>
-                                            <span className="text-dark"> {recipe.averageRating || "4.0"}</span>
-                                        </div>
+                                <div key={recipe._id} className='search-recipe-card text-center'
+                                    onClick={() => navigate(`/recipes/view/${recipe._id}`)}
+                                    style={{ cursor: "pointer" }}
+                                >
+                                    <img src={`${config.BASE_URL}${recipe.image}`} alt={recipe.title} className='img-fluid search-recipe-card-img' />
+                                    <div className='search-recipe-title'>{recipe.title}</div>
+                                    <div className='search-recipe-card-rating'>
+                                        <b className='text-dark me-1'>
+                                            {recipe.averageRating ? Number(recipe.averageRating).toFixed(1) : '0.0'}
+                                        </b>
+                                        <i className="fa-solid fa-star text-warning" />
+                                    </div>
+
+                                    <div className='search-recipe-bottom-container'>
+                                        <div className='recipe-time'>⏳{recipe.cookingTime}mins</div>
+                                        <div className='servings'>🍽{recipe.servings}</div>
                                     </div>
                                 </div>
                             ))}

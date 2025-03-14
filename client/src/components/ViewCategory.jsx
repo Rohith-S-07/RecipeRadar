@@ -122,27 +122,19 @@ const ViewCategory = () => {
                                 onClick={() => navigate(`/recipes/view/${recipe._id}`)}
                                 style={{ cursor: "pointer" }}
                             >
-                                <img src={`${config.BASE_URL}${recipe.image}`} alt={recipe.title} className='img-fluid' />
-                                <div className='text-warning ratings'>
-                                    <b className='text-dark me-2'>
+                                <img src={`${config.BASE_URL}${recipe.image}`} alt={recipe.title} className='img-fluid recipe-card-img' />
+                                <div className='recipe-title'>{recipe.title}</div>
+                                <div className='recipe-card-rating'>
+                                    <b className='text-dark me-1'>
                                         {recipe.averageRating ? Number(recipe.averageRating).toFixed(1) : '0.0'}
                                     </b>
-
-                                    {[1, 2, 3, 4, 5].map((value) => (
-                                        <i
-                                            key={value}
-                                            className={
-                                                value <= Math.floor(Number(recipe.averageRating))
-                                                    ? "fa-solid fa-star"
-                                                    : value === Math.ceil(Number(recipe.averageRating)) &&
-                                                        !Number.isInteger(Number(recipe.averageRating))
-                                                        ? "fa-solid fa-star-half-stroke"
-                                                        : "fa-regular fa-star"
-                                            }
-                                        />
-                                    ))}
+                                    <i className="fa-solid fa-star text-warning" />
                                 </div>
-                                <div className='recipe-title'>{recipe.title}</div>
+
+                                <div className='recipe-bottom-container'>
+                                    <div className='recipe-time'>⏳{recipe.cookingTime} mins</div>
+                                    <div className='servings'>🍽{recipe.servings}</div>
+                                </div>
                             </div>
                         ))
                     ) : (

@@ -42,42 +42,107 @@
   position: relative;
   background-color: white;
   padding: 5px;
-  height: 270px;
-  width: 180px;
+  height: 235px;
+  width: 174px;
   text-align: center;
   margin-bottom: 15px;
   border-radius: 10px;
-  box-shadow: 1px 1px 2px rgb(128, 128, 128);
+  border: 1px solid #85858550;
+  box-shadow: 1px 1px 2px rgb(176, 176, 176);
+  will-change: transform, box-shadow;
 }
 
-.recipe-card img {
-  display: block;
+.recipe-card .recipe-card-img {
+  position: absolute;
   width: 170px;
-  margin: 0 auto;
-  height: 200px;
+  height: 190px;
+  margin: 0 2px;
+  top: 2px;
+  left: 0;
   border-radius: 10px;
-}
-
-.ratings {
-  margin-top: 5px;
+  transition: transform 300ms ease-out, top 300ms ease-out,
+    border-radius 300ms ease-out;
+  will-change: transform, top, border-radius;
 }
 
 .recipe-title {
-  margin: 0 auto;
-  margin-top: 5px;
-  width: fit-content;
-  border-radius: 3px;
-  padding: 2px 5px;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
   font-size: 15px;
+  text-align: center;
+  transition: color 300ms ease-in, bottom 300ms ease-in;
 }
 
-.sorting-option{
+.recipe-card-rating {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: white;
+  padding: 5px;
+  border-bottom-left-radius: 15px;
+  border-top-right-radius: 10px;
+  transition: all 300ms ease-out;
+  will-change: top, right;
+}
+
+.recipe-bottom-container {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  bottom: 15px;
+  transition: opacity 300ms ease-in, bottom 300ms ease-in;
+}
+
+.recipe-bottom-container .recipe-time {
+  position: absolute;
+  left: 0;
+  margin-left: 3px;
+}
+
+.recipe-bottom-container .servings {
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+}
+
+.recipe-card:hover {
+  box-shadow: 1px 1px 8px rgb(110, 110, 110); /* Slightly stronger shadow */
+  transition: box-shadow 200ms ease-in;
+}
+
+.recipe-card:hover .recipe-card-img {
+  top: -15px;
+  border-radius: 20px;
+  transform: scale(1.05);
+  box-shadow: 1px 1px 2px rgb(176, 176, 176);
+}
+
+.recipe-card:hover .recipe-title {
+  color: var(--primary);
+  font-weight: 500;
+  bottom: 25px;
+}
+
+.recipe-card:hover .recipe-card-rating {
+  top: -20px;
+  right: -4px;
+  border-top-right-radius: 20px;
+}
+
+.recipe-card:hover .recipe-bottom-container {
+  opacity: 1;
+  bottom: 28px;
+}
+
+/* Sort Button */
+.sorting-option {
   position: absolute;
   right: 20px;
   /* margin-top: -40px; */
 }
 
-.sorting-option select{
+.sorting-option select {
   font-size: 12px;
   color: var(--primary);
   font-weight: bold;

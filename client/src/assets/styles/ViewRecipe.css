@@ -1,3 +1,16 @@
+.recipe-page {
+  background-color: white;
+  border-radius: 15px;
+  /* border: 1px solid rgba(0, 0, 0, 0.3); */
+  box-shadow: 0 0 2px rgba(128, 128, 128, 0.5);
+  position: relative;
+}
+
+.recipe-page-img {
+  height: 300px !important;
+  border-radius: 50%;
+}
+
 .wishlist-btn {
   position: absolute;
   right: 20px;
@@ -6,7 +19,7 @@
   font-size: 2.2rem;
 }
 
-.wishlist-btn:hover{
+.wishlist-btn:hover {
   scale: 1.1;
   text-shadow: 1px 1px 1px rgb(115, 52, 52);
 }
@@ -41,7 +54,7 @@
 }
 
 .comments-section {
-  background-color: rgba(243, 242, 242, 0.9);
+  background-color: rgba(243, 242, 242, 0.8);
   border-radius: 10px;
   box-shadow: 1px 1px 1px gray;
   padding: 10px;
