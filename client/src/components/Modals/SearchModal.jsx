@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import config from "../../config";
@@ -10,12 +10,16 @@ const SearchModal = ({ show, onClose }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [animationClass, setAnimationClass] = useState("");
     const [loading, setLoading] = useState(false);
+    const searchRef = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (show) {
             setAnimationClass("show");
             document.body.style.overflow = "hidden";
+            setTimeout(() => {
+                searchRef.current.focus();
+            }, 100);
             fetchRecipes();
         } else {
             setAnimationClass("hide");
@@ -51,7 +55,7 @@ const SearchModal = ({ show, onClose }) => {
     };
 
     useEffect(() => {
-        if (searchQuery.length < 3) {
+        if (searchQuery.length < 2) {
             fetchRecipes();
             return;
         }
@@ -87,6 +91,7 @@ const SearchModal = ({ show, onClose }) => {
                         className="form-control"
                         placeholder="Start typing to Search"
                         value={searchQuery}
+                        ref={searchRef}
                         onChange={handleSearch}
                         autoFocus
                     />

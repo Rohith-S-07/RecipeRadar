@@ -118,19 +118,20 @@ const NavBar = () => {
                             ) : (
                                 <div className="profile-dropdown">
                                     <div className="profile-button" onClick={toggleDropdown}>
-                                        <span className="me-2">Hi, {user.name}</span>
                                         <img
                                             src={`${config.BASE_URL}/${user.profilePicture}`}
                                             alt="Profile"
                                             className="profile-image"
                                         />
+                                        <i className={`bi ms-2 ${dropdownOpen ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
                                     </div>
 
                                     {/* Dropdown Menu */}
                                     {dropdownOpen && (
                                         <div className="dropdown-menu show">
+                                            <span className="ms-3 fw-bold custom-primary-text">Hi, {user.name}</span>
                                             <button
-                                                className="dropdown-item d-none"
+                                                className="dropdown-item"
                                                 onClick={() => {
                                                     closeNavbar();
                                                     navigate('/profile');

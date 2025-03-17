@@ -1,0 +1,39 @@
+.profile-header {
+  position: relative;
+
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 0 2px rgba(128, 128, 128, 0.5);
+}
+
+.profile-gradient {
+  background: url(../images/bg-gradient-img.jpg);
+  background-size: cover;
+  height: 100px;
+  width: 100%;
+  box-shadow: 1px 1px 2px grey;
+}
+
+.profile-info {
+  padding: 0 20px;
+  margin-top: -50px;
+}
+
+.profile-info a {
+  margin-left: 10px;
+}
+
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  margin-right: 20px;
+  background-color: rgb(214, 214, 214);
+}
+
+.profile-edit-form .form-control {
+  border-radius: 8px;
+  border: 1px solid #d1d1d1;
+}

@@ -8,7 +8,9 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     description: { type: String },
     profilePicture: { type: String },
-    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }]
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }],
+    instagram: { type: String },
+    youtube: { type: String }
   },
   { timestamps: true }
 );

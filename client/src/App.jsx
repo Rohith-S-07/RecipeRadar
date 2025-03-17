@@ -28,6 +28,7 @@ import './assets/styles/DialogBoxes.css'
 import './assets/styles/Categories.css'
 import './assets/styles/Recipes.css'
 import './assets/styles/ViewRecipe.css'
+import './assets/styles/Profile.css'
 
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -105,7 +106,7 @@ function App() {
         <Route path="/recipes/view/:id" element={<Layout><ViewRecipe /></Layout>} />
         <Route path="/recipes/myrecipes" element={<Layout><MyRecipes /></Layout>} />
         <Route path="/recipes/edit/:id" element={<Layout><EditRecipe /></Layout>} />
-        {/* <Route path="/profile" element={<Layout><Profile /></Layout>} /> */}
+        <Route path="/profile" element={<Layout><Profile /></Layout>} />
         {/* <Route path="/chat" element={<Layout><Chat /></Layout>} /> */}
 
         <Route path="*" element={<NotFound />} />

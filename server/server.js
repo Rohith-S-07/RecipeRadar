@@ -16,12 +16,14 @@ app.use('/uploads', express.static('uploads'));
 
 const authRoutes = require('./routes/authRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
-const wishlistRoutes = require('./routes/wishlistRoutes')
+const wishlistRoutes = require('./routes/wishlistRoutes');
+const profileRoutes = require('./routes/profileRoutes');
 
 // Routes
 app.use('/auth', authRoutes);
 app.use('/recipes', recipeRoutes);
 app.use('/wishlist', wishlistRoutes);
+app.use('/profile', profileRoutes);
 
 app.get('/ping', (req, res) => {
     res.status(200).json({ message: "Backend is awake!" });
