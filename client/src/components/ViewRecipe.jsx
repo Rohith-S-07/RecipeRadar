@@ -7,6 +7,7 @@ import RatingModal from './Modals/RatingModal';
 import LottiePlayer from "./LottiePlayer";
 import AiLogo from '../assets/images/chat-gpt.png'
 import { Tooltip } from "bootstrap";
+import TTSModal from "./Modals/TTSModal";
 
 const ViewRecipe = () => {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ const ViewRecipe = () => {
     const [totalRatings, setTotalRatings] = useState(0);
     const [showRatingModal, setShowRatingModal] = useState(false);
     const [isWishlisted, setIsWishlisted] = useState(false);
+    const [showTTSModal, setShowTTSModal] = useState(false);
 
     const token = localStorage.getItem("authToken");
 
@@ -246,7 +248,6 @@ const ViewRecipe = () => {
                                 {recipe.description}
                             </p>
                         </div>
-
                     </section>
 
                     <div className="row">
@@ -352,7 +353,17 @@ const ViewRecipe = () => {
 
                     {/* Steps Section */}
                     <div className="mt-1">
-                        <h4 className="fw-semibold">Steps to Cook 👨‍🍳</h4>
+                        <div className="row">
+                            <h4 className="fw-semibold col-11">Steps to Cook 👨‍🍳</h4>
+                            <div className="col-1">
+                                <button
+                                    className="custom-btn-outline-primary rounded"
+                                    onClick={() => setShowTTSModal(true)}
+                                >
+                                    <i className="bi bi-megaphone custom-text-primary fw-bold fs-4"></i>
+                                </button>
+                            </div>
+                        </div>
                         <div className="list-group list-group-flush mt-3">
                             {recipe.steps.map((step, index) => (
                                 <p key={index} className="list-item">
@@ -488,6 +499,13 @@ const ViewRecipe = () => {
                         onSubmitRating={handleRatingSubmit}
                         userRating={userRating}
                     />
+
+                    <TTSModal
+                        isOpen={showTTSModal}
+                        onRequestClose={() => setShowTTSModal(false)}
+                        recipe={recipe}
+                    />
+
                 </>
             )}
         </div>
