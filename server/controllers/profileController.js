@@ -15,17 +15,30 @@ const getProfile = async (req, res) => {
     }
 };
 
-// Update user profile
 const updateProfile = async (req, res) => {
-    const {description, password, instagram, youtube } = req.body;
+    const { description, instagram, youtube, currentPassword, newPassword, tags } = req.body;
     const profilePicture = req.file ? req.file.path : req.user.profilePicture;
 
     try {
-        const updatedData = {description, profilePicture, instagram, youtube };
+        const updatedData = { description, profilePicture, instagram, youtube, tags };
 
-        // If password is provided, hash it
-        if (password) {
-            const hashedPassword = await bcrypt.hash(password, 12);
+        if (currentPassword && newPassword) {
+            const user = await User.findById(req.user.id);
+
+            // Verify current password
+            const isMatch = await bcrypt.compare(currentPassword, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Current password is incorrect.' });
+            }
+
+            // Check if new password matches the old one
+            const isSamePassword = await bcrypt.compare(newPassword, user.password);
+            if (isSamePassword) {
+                return res.status(400).json({ message: 'New password cannot be the same as the old password.' });
+            }
+
+            // Hash and update new password
+            const hashedPassword = await bcrypt.hash(newPassword, 12);
             updatedData.password = hashedPassword;
         }
 

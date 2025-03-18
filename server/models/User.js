@@ -10,7 +10,8 @@ const UserSchema = new mongoose.Schema(
     profilePicture: { type: String },
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }],
     instagram: { type: String },
-    youtube: { type: String }
+    youtube: { type: String },
+    tags: { type: [String], default: [] }
   },
   { timestamps: true }
 );

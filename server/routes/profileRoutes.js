@@ -25,6 +25,6 @@ const upload = multer({ storage });
 
 // Profile Routes
 router.get('/getProfile', authMiddleware, getProfile);
-router.put('/updateProfile', authMiddleware, upload.single('profilePicture'), updateProfile); // Update profile
+router.put('/updateProfile', authMiddleware, upload.single('profilePicture'), updateProfile);
 
 module.exports = router;
