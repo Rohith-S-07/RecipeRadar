@@ -15,9 +15,10 @@
   -webkit-backdrop-filter: blur(3px);
   border-radius: 16px;
   padding: 20px;
-  animation: animate-border 4s linear infinite;
   z-index: 2;
   position: relative;
+  background-color: white;
+  animation: animate-border 4s linear infinite;
 }
 
 .wrapper dotlottie-player {
@@ -67,11 +68,6 @@ input {
 
 input:hover {
   background-color: rgba(255, 255, 255, 0.751);
-}
-
-input:focus {
-  background-color: rgba(255, 255, 255, 0.75);
-  color: #00188e;
 }
 
 .eye-icon {
@@ -143,4 +139,22 @@ form select:focus {
   background-color: white;
   color: var(--primary) !important;
   border: 1px solid var(--primary) !important;
+}
+
+@keyframes animate-border {
+  0% {
+    box-shadow: 0 0 3px 0.5px ,#82b028, 0 0 0 0.5px rgba(233, 195, 5, 0);
+  }
+  25% {
+    box-shadow: 0 0 3px 0.5px #b4ff1e, 0 0 0 0.5px rgba(255, 79, 79, 0);
+  }
+  50% {
+    box-shadow: 0 0 3px 0.5px #d1ff76, 0 0 0 0.5px rgba(249, 212, 35, 0);
+  }
+  75% {
+    box-shadow: 0 0 3px 0.7px #f6ff00, 0 0 0 0.5px rgba(255, 79, 79, 0);
+  }
+  100% {
+    box-shadow: 0 0 3px 1px #eaffc1, 0 0 0 0.5px rgba(249, 212, 35, 0);
+  }
 }

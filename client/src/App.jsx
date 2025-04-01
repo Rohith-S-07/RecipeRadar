@@ -19,8 +19,16 @@ import MyRecipes from './components/MyRecipes'
 import EditRecipe from './components/EditRecipe'
 import Profile from './components/Profile'
 import Chat from './components/Chat'
-import NotFound from './components/NotFound';
 
+import AdminRoute from './components/AdminComponents/AdminRoute'
+import AdminLayout from './components/AdminComponents/AdminLayout'
+import AdminDashboard from './components/AdminComponents/AdminDashboard'
+import ManageUsers from './components/AdminComponents/ManageUsers'
+import TagsManager from './components/AdminComponents/TagsManager'
+import ManageRecipes from './components/AdminComponents/ManageRecipes'
+
+import NotFound from './components/NotFound';
+import Forbidden from './components/AdminComponents/Forbidden'
 
 import './assets/styles/NavBar.css';
 import './assets/styles/Main.css'
@@ -34,6 +42,7 @@ import './assets/styles/Profile.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import AdminViewRecipe from './components/AdminComponents/AdminViewRecipe'
 
 // Token Expiry Handler Component
 const TokenHandler = () => {
@@ -109,9 +118,30 @@ function App() {
         <Route path="/profile" element={<Layout><Profile /></Layout>} />
         {/* <Route path="/chat" element={<Layout><Chat /></Layout>} /> */}
 
+
+        {/* Protected Admin Routes */}
+        <Route
+          path="/admin/*"
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="manageusers" element={<ManageUsers />} />
+          <Route path="managerecipes" element={<ManageRecipes />} />
+          <Route path="managerecipes/view/:id" element={<AdminViewRecipe />} />
+          <Route path="managetags" element={<TagsManager />} />
+        </Route>
+
+        {/* Additional Error Routes */}
         <Route path="*" element={<NotFound />} />
+        <Route path="/forbidden" element={<Forbidden />} />
+
       </Routes>
-    </Router>
+
+    </Router >
   )
 }
 

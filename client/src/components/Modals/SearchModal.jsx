@@ -106,7 +106,7 @@ const SearchModal = ({ show, onClose }) => {
                         </div>
                     ) : recipes.length === 0 ? (
                         <div className="text-muted text-center">
-                            <LottiePlayer src="https://lottie.host/e9ab5ffe-f970-4d48-a59d-82747af4c1e7/1DMwFNP5bB.lottie" />
+                            <LottiePlayer src="https://lottie.host/e9ab5ffe-f970-4d48-a59d-82747af4c1e7/1DMwFNP5bB.lottie"/>
                             <br />
                             No recipes found.
                         </div>

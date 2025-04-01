@@ -50,8 +50,7 @@ const NavBar = () => {
 
     // Logout Function
     const handleLogout = () => {
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("userData");
+        localStorage.clear();
         setUser(null);
         setDropdownOpen(false);
         setShowNotification(true);

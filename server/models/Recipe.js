@@ -18,7 +18,7 @@ const recipeSchema = new mongoose.Schema({
     authorName: { type: String, required: true },
     cookingTime: { type: Number, required: true },
     servings: { type: Number, required: true },
-    difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'], required: true },
+    difficulty: { type: String, enum: ['Beginner', 'Intermediate', 'Advanced'], required: true },
     tags: { type: [String] },
     videoLink: { type: String },
     nutrition: {

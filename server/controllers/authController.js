@@ -42,17 +42,22 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if user exists
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'Invalid email or password' });
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid email or password' });
 
-    // Create JWT token
+    const isAdmin = email === 'rradmin@gmail.com';
+
     const token = jwt.sign(
-      { id: user._id, email: user.email, name: user.name, profilePicture: user.profilePicture }, // Include profile picture in token payload
+      {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        profilePicture: user.profilePicture,
+        role: isAdmin ? 'admin' : 'user'
+      },
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
@@ -60,19 +65,20 @@ const loginUser = async (req, res) => {
     res.status(200).json({
       message: 'Login successful',
       token,
-      user: { 
-        id: user._id, 
-        email: user.email, 
-        name: user.name, 
-        profilePicture: user.profilePicture // Include profile picture in response
-      },
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        profilePicture: user.profilePicture,
+        role: isAdmin ? 'admin' : 'user'
+      }
     });
 
   } catch (error) {
+    console.error('Login error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
-
 
 // Validate user by ID
 const validateUserId = async (req, res) => {

@@ -145,7 +145,7 @@ const Recipes = () => {
             </a>
             <a href="/recipes/Fiber-Rich" className="text-decoration-none text-dark">
               <div className='tag-card text-center'>
-                <img src={`/src/assets/category-images/fibre-rich.jpg`} alt="" className='img-fluid' />
+                <img src={`/src/assets/category-images/fiber-rich.jpg`} alt="" className='img-fluid' />
                 <div className='tag-title'>Fiber-Rich</div>
               </div>
             </a>

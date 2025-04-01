@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import config from "../config";
-import NotificationModal from './Modals/NotificationModal';
-import RatingModal from './Modals/RatingModal';
-import LottiePlayer from "./LottiePlayer";
-import AiLogo from '../assets/images/chat-gpt.png'
+import config from "../../config";
+import NotificationModal from '../Modals/NotificationModal';
+import RatingModal from '../Modals/RatingModal';
+import LottiePlayer from "../LottiePlayer";
+import AiLogo from '../../assets/images/chat-gpt.png'
 import { Tooltip } from "bootstrap";
-import TTSModal from "./Modals/TTSModal";
+import TTSModal from "../Modals/TTSModal";
 
-const ViewRecipe = () => {
+const AdminViewRecipe = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [recipe, setRecipe] = useState(null);
@@ -43,7 +43,6 @@ const ViewRecipe = () => {
     useEffect(() => {
         fetchRecipe();
         fetchComments();
-        fetchWishlistStatus();
         setTimeout(() => {
             document.documentElement.style.overflowY = "auto";
         }, 100);
@@ -85,105 +84,6 @@ const ViewRecipe = () => {
         }
     };
 
-    const handleAddComment = async () => {
-        if (!newComment.trim()) {
-            commentRef.current?.focus();
-            return
-        };
-
-        try {
-            setIsSubmitting(true);
-
-            if (!token) {
-                setNotification({ isOpen: true, message: 'Please Login in to Continue!' });
-                setTimeout(() => {
-                    navigate('/signin');
-                }, 1000);
-                return;
-            }
-
-            await axios.post(
-                `${config.BASE_URL}/recipes/${id}/addComment`,
-                { text: newComment },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-
-            setNewComment("");
-            await fetchComments();
-            await fetchRecipe();
-            commentRef.current?.scrollIntoView({ behavior: "smooth" });
-        } catch (error) {
-            console.error("Error adding comment:", error);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    const handleRatingSubmit = async (ratingValue) => {
-        try {
-            if (!token) {
-                setNotification({ isOpen: true, message: 'Please Login to Continue!' });
-                return;
-            }
-
-            await axios.post(
-                `${config.BASE_URL}/recipes/${id}/addRating`,
-                { rating: ratingValue },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-
-            setUserRating(ratingValue);
-            const ratingResponse = await axios.get(`${config.BASE_URL}/recipes/${id}/ratings`);
-            setAverageRating(ratingResponse.data.averageRating);
-            setTotalRatings(ratingResponse.data.totalRatings);
-
-            setNotification({ isOpen: true, message: "Rating submitted successfully!" });
-        } catch (error) {
-            console.error("Error submitting rating:", error);
-        }
-    };
-
-    const fetchWishlistStatus = async () => {
-        try {
-            if (!token) return;
-
-            const response = await axios.get(`${config.BASE_URL}/wishlist/status/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-
-            setIsWishlisted(response.data.isWishlisted);
-        } catch (error) {
-            console.error("Error fetching wishlist status:", error);
-        }
-    };
-
-    const handleWishlistToggle = async () => {
-        try {
-
-            if (!token) {
-                setNotification({ isOpen: true, message: 'Please login to continue' });
-                return;
-            }
-
-            if (isWishlisted) {
-                await axios.delete(`${config.BASE_URL}/wishlist/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setNotification({ isOpen: true, message: 'Removed from Saved Recipes!' });
-            } else {
-                await axios.post(`${config.BASE_URL}/wishlist/${id}`, {}, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setNotification({ isOpen: true, message: 'Added to Saved Recipes!' });
-            }
-
-            setIsWishlisted(!isWishlisted);
-        } catch (error) {
-            console.error("Error updating wishlist:", error);
-            setNotification({ isOpen: true, message: 'Failed to update Saved Recipes!' });
-        }
-    };
-
     return (
         <div className="recipe-page m-3 p-3 page-content">
             {!recipe ? (
@@ -194,20 +94,7 @@ const ViewRecipe = () => {
                 </div>
             ) : (
                 <>
-                    <button
-                        type="button"
-                        className="border-0 bg-transparent wishlist-btn text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="left"
-                        data-bs-custom-class="custom-tooltip"
-                        title={`${isWishlisted ? 'Remove from Saved' : 'Add to Saved'}`}
-                        onClick={handleWishlistToggle}
-                    >
-                        <i className={`bi ${isWishlisted ? 'bi-bookmark-heart-fill' : 'bi-bookmark-heart'}`} />
-                    </button>
-
-
-                    <section className="row mb-2 align-items-center justify-content-between">
+                      <section className="row mb-2 align-items-center justify-content-between">
                         {/* Image Container */}
                         <div className="col-md-4 d-flex flex-column">
                             <img
@@ -413,13 +300,7 @@ const ViewRecipe = () => {
 
                             {/* Rating Button */}
                             <div className="rating-section">
-                                <button
-                                    className="btn btn-warning d-flex align-items-center gap-2 rounded-pill shadow-sm text-white"
-                                    onClick={() => setShowRatingModal(true)}
-                                >
-                                    <i className="bi bi-star-fill fs-6"></i>
-                                    <span className="fw-semibold">Give Rating</span>
-                                </button>
+                                
                             </div>
                         </div>
 
@@ -436,26 +317,6 @@ const ViewRecipe = () => {
                                 <p className="fs-6 text-dark mx-2 mb-0">{recipe.summary}</p>
                             </div>
                         )}
-
-                        {/* Comment Input */}
-                        <div className="mb-1 d-flex mt-3">
-                            <input
-                                className="form-control text-start"
-                                placeholder="Add a comment..."
-                                value={newComment}
-                                onChange={(e) => setNewComment(e.target.value)}
-                                ref={commentRef}
-                            ></input>
-                            <button onClick={handleAddComment}
-                                className="btn btn-primary rounded-circle ms-2 py-2"
-                                disabled={isSubmitting}>
-                                {isSubmitting ? (
-                                    <i className="spinner-border spinner-border-sm"></i>
-                                ) : (
-                                    <i className="bi bi-send"></i>
-                                )}
-                            </button>
-                        </div>
 
                         {/* Display Comments */}
                         <div className="comments-list mt-3">
@@ -494,13 +355,6 @@ const ViewRecipe = () => {
                         message={notification.message}
                     />
 
-                    <RatingModal
-                        isOpen={showRatingModal}
-                        onRequestClose={() => setShowRatingModal(false)}
-                        onSubmitRating={handleRatingSubmit}
-                        userRating={userRating}
-                    />
-
                     <TTSModal
                         isOpen={showTTSModal}
                         onRequestClose={() => setShowTTSModal(false)}
@@ -513,4 +367,4 @@ const ViewRecipe = () => {
     );
 };
 
-export default ViewRecipe;
+export default AdminViewRecipe;

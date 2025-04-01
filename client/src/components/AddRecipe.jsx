@@ -15,7 +15,8 @@ const AddRecipe = ({ handleAddRecipe }) => {
     const [cookingTime, setCookingTime] = useState('');
     const [servings, setServings] = useState('');
     const [difficulty, setDifficulty] = useState('');
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState([]); // Store fetched tags
+    const [selectedTags, setSelectedTags] = useState([]); // Store selected tags
     const [videoLink, setVideoLink] = useState('');
     const [notification, setNotification] = useState({ isOpen: false, message: '' });
     const [nutrition, setNutrition] = useState({
@@ -36,16 +37,8 @@ const AddRecipe = ({ handleAddRecipe }) => {
     const servingsRef = useRef(null);
     const imageRef = useRef(null);
 
-    const predefinedTags = [
-        "Breakfast", "Lunch", "Dinner", "Snacks", "Desserts", "Drinks",
-        "Vegan", "Vegetarian", "Dairy-Free", "Gluten-Free", "Keto", "Low-Carb",
-        "High-Protein", "Low-Calorie", "Balanced", "Fiber-Rich", "Indian",
-        "Mexican", "Italian", "Chinese", "Spicy", "Sweet", "Savory",
-        "Fast Food"
-    ];
-
     const userData = JSON.parse(localStorage.getItem('userData'));
-    
+
     useEffect(() => {
         if (!userData) {
             navigate('/')
@@ -57,11 +50,23 @@ const AddRecipe = ({ handleAddRecipe }) => {
         });
     }, [navigate]);
 
+    useEffect(() => {
+        const fetchTags = async () => {
+            try {
+                const response = await axios.get(`${config.BASE_URL}/tags`);
+                setTags(response.data);
+            } catch (error) {
+                console.error('Error fetching tags:', error);
+            }
+        };
+        fetchTags();
+    }, []);
+
     const userID = userData?.id || '';
     const userName = userData?.name || 'Anonymous'
 
     const toggleTag = (tag) => {
-        setTags(prevTags =>
+        setSelectedTags(prevTags =>
             prevTags.includes(tag)
                 ? prevTags.filter(t => t !== tag)
                 : [...prevTags, tag]
@@ -69,9 +74,9 @@ const AddRecipe = ({ handleAddRecipe }) => {
     };
 
     const calculateDifficulty = (time) => {
-        if (time <= 15) return 'Easy';
-        if (time <= 45) return 'Medium';
-        return 'Hard';
+        if (time <= 15) return 'Beginner';
+        if (time <= 45) return 'Intermediate';
+        return 'Advanced';
     };
 
     const clearForm = () => {
@@ -133,7 +138,7 @@ const AddRecipe = ({ handleAddRecipe }) => {
         steps.forEach((step, index) => {
             formData.append(`steps[${index}]`, step);
         });
-        tags.forEach((tag, index) => {
+        selectedTags.forEach((tag, index) => {
             formData.append(`tags[${index}]`, tag);
         });
 
@@ -264,13 +269,17 @@ const AddRecipe = ({ handleAddRecipe }) => {
                 <div className="mb-3">
                     <label className="form-label">Select Tags</label>
                     <div className="d-flex flex-wrap gap-2">
-                        {predefinedTags.map(tag => (
-                            <button key={tag} type="button"
-                                className={`btn btn-sm ${tags.includes(tag) ? 'btn-primary' : 'btn-outline-secondary'}`}
-                                onClick={() => toggleTag(tag)}>
-                                {tag}
-                            </button>
-                        ))}
+                        {tags.length > 0 ? (
+                            tags.map(tag => (
+                                <button key={tag._id} type="button"
+                                    className={`btn btn-sm ${selectedTags.includes(tag.name) ? 'btn-primary' : 'btn-outline-secondary'}`}
+                                    onClick={() => toggleTag(tag.name)}>
+                                    {tag.name}
+                                </button>
+                            ))
+                        ) : (
+                            <p className="text-muted">No tags available</p>
+                        )}
                     </div>
                 </div>
 
@@ -278,7 +287,7 @@ const AddRecipe = ({ handleAddRecipe }) => {
                 <div className="mb-3">
                     <label className="form-label">Selected Tags:</label>
                     <div className="border rounded p-2 bg-light">
-                        {tags.length > 0 ? tags.join(', ') : "No tags selected"}
+                        {selectedTags.length > 0 ? selectedTags.join(', ') : "No tags selected"}
                     </div>
                 </div>
 
