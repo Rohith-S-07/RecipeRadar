@@ -106,19 +106,19 @@ const AdminDashboard = () => {
             {/* Summary Cards */}
             <div className="row text-center mb-1">
                 <div className="col-md-4">
-                    <div className="card shadow-sm p-3 mb-1">
+                    <div className="card shadow-sm p-2">
                         <h4>Users</h4>
                         <p className="fs-3 fw-bold text-primary">{stats.users}</p>
                     </div>
                 </div>
                 <div className="col-md-4 mb-1">
-                    <div className="card shadow-sm p-3">
+                    <div className="card shadow-sm p-2">
                         <h4>Recipes</h4>
                         <p className="fs-3 fw-bold text-success">{stats.recipes}</p>
                     </div>
                 </div>
                 <div className="col-md-4 mb-1">
-                    <div className="card shadow-sm p-3">
+                    <div className="card shadow-sm p-2">
                         <h4>Total Comments</h4>
                         <p className="fs-3 fw-bold text-danger">{stats.totalComments}</p>
                     </div>
@@ -127,48 +127,46 @@ const AdminDashboard = () => {
 
             {/* Charts */}
             <div className="row mb-1">
-                <div className="col-md-6 mb-1">
+                <div className="col-md-4 mb-1">
+                    <div className="card p-4 shadow">
+                        <h5 className="text-center">Top Recipes (by Comments)</h5>
+                        <Bar data={topCommentedRecipesData} />
+                    </div>
+                </div>
+
+                <div className="col-md-4 mb-1">
+                    <div className="card p-4 shadow">
+                        <h5 className="text-center">Top Users (by Recipes)</h5>
+                        <Bar data={topUsersData} />
+                    </div>
+                </div>
+
+                <div className="col-md-4 mb-1">
+                    <div className="card p-4 shadow">
+                        <h5 className="text-center">Top Recipes (by Rating)</h5>
+                        <Bar data={topRatedRecipesData} />
+                    </div>
+                </div>
+            </div>
+
+            <div className="row mb-1">
+                <div className="col-md-4 mb-1">
                     <div className="card p-4 shadow">
                         <h5 className="text-center">User Distribution</h5>
                         <Pie data={userDistributionData} />
                     </div>
                 </div>
 
-                <div className="col-md-6 mb-1">
-                    <div className="card p-4 shadow">
-                        <h5 className="text-center">Top Users (by Recipes)</h5>
-                        <Bar data={topUsersData} />
-                    </div>
-                </div>
-            </div>
-
-            <div className="row mb-1">
-                <div className="col-md-6 mb-1">
-                    <div className="card p-4 shadow">
-                        <h5 className="text-center">Top Recipes (by Rating)</h5>
-                        <Bar data={topRatedRecipesData} />
-                    </div>
-                </div>
-
-                <div className="col-md-6 mb-1">
-                    <div className="card p-4 shadow">
-                        <h5 className="text-center">Top Recipes (by Comments)</h5>
-                        <Bar data={topCommentedRecipesData} />
-                    </div>
-                </div>
-            </div>
-
-            <div className="row mb-1">
-                <div className="col-md-6 mb-1">
+                <div className="col-md-4 mb-1">
                     <div className="card p-4 shadow">
                         <h5 className="text-center">Top Tags</h5>
                         <Pie data={topTagsData} />
                     </div>
                 </div>
-                <div className="col-md-6 mb-1">
+                <div className="col-md-4 mb-1">
                     <div className="card p-4 shadow">
                         <h5 className="text-center">Top Users by Comments</h5>
-                        <table className="table">
+                        <table className="table text-center">
                             <thead>
                                 <tr>
                                     <th>Profile</th>

@@ -62,6 +62,11 @@ const AdminSidebar = () => {
             🏷️ {!collapsed && "Manage Tags"}
           </NavLink>
         </li>
+        <li>
+          <NavLink to="/admin/managefeedbacks" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+          📨 {!collapsed && "Manage Feedbacks"}
+          </NavLink>
+        </li>
       </ul>
       <div>
         <button className="btn btn-danger logout-btn"

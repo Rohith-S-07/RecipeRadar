@@ -18,7 +18,7 @@ import NotificationModal from './components/Modals/NotificationModal'
 import MyRecipes from './components/MyRecipes'
 import EditRecipe from './components/EditRecipe'
 import Profile from './components/Profile'
-import Chat from './components/Chat'
+import ChatPage from './components/ChatPage'
 
 import AdminRoute from './components/AdminComponents/AdminRoute'
 import AdminLayout from './components/AdminComponents/AdminLayout'
@@ -26,6 +26,8 @@ import AdminDashboard from './components/AdminComponents/AdminDashboard'
 import ManageUsers from './components/AdminComponents/ManageUsers'
 import TagsManager from './components/AdminComponents/TagsManager'
 import ManageRecipes from './components/AdminComponents/ManageRecipes'
+import AdminViewRecipe from './components/AdminComponents/AdminViewRecipe'
+import ManageFeedbacks from './components/AdminComponents/ManageFeedbacks'
 
 import NotFound from './components/NotFound';
 import Forbidden from './components/AdminComponents/Forbidden'
@@ -42,7 +44,6 @@ import './assets/styles/Profile.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import AdminViewRecipe from './components/AdminComponents/AdminViewRecipe'
 
 // Token Expiry Handler Component
 const TokenHandler = () => {
@@ -116,7 +117,9 @@ function App() {
         <Route path="/recipes/myrecipes" element={<Layout><MyRecipes /></Layout>} />
         <Route path="/recipes/edit/:id" element={<Layout><EditRecipe /></Layout>} />
         <Route path="/profile" element={<Layout><Profile /></Layout>} />
-        {/* <Route path="/chat" element={<Layout><Chat /></Layout>} /> */}
+        <Route path="/chat" element={<ChatPage />}/>
+        <Route path="/chat/:groupId" element={<ChatPage />} />
+
 
 
         {/* Protected Admin Routes */}
@@ -133,6 +136,7 @@ function App() {
           <Route path="managerecipes" element={<ManageRecipes />} />
           <Route path="managerecipes/view/:id" element={<AdminViewRecipe />} />
           <Route path="managetags" element={<TagsManager />} />
+          <Route path="managefeedbacks" element={<ManageFeedbacks />} />
         </Route>
 
         {/* Additional Error Routes */}

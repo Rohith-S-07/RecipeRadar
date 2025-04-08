@@ -185,7 +185,7 @@ const ViewRecipe = () => {
     };
 
     return (
-        <div className="recipe-page m-3 p-3 page-content">
+        <div className="recipe-page m-2 p-3 page-content">
             {!recipe ? (
                 <div className="text-muted text-center">
                     <LottiePlayer src="https://lottie.host/10236891-3b0a-4744-be9f-74e8fd54026d/in2dZGOmWu.lottie" />
@@ -212,7 +212,7 @@ const ViewRecipe = () => {
                         <div className="col-md-4 d-flex flex-column">
                             <img
                                 src={`${config.BASE_URL}${recipe.image}`}
-                                alt={recipe.title}
+                                alt={`Image of ${recipe.title}`} 
                                 className="img-fluid rounded shadow recipe-page-img"
                             />
                         </div>

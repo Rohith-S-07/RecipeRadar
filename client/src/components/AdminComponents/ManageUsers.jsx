@@ -58,7 +58,7 @@ const ManageUsers = () => {
                 </div>
             ) : (
                 <div className="table-responsive">
-                    <table className="table table-striped rounded-3 overflow-hidden shadow">
+                    <table className="table table-striped rounded-3 overflow-hidden">
                         <thead className="table-dark">
                             <tr>
                                 <th>Name</th>

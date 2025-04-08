@@ -85,7 +85,7 @@ const AdminViewRecipe = () => {
     };
 
     return (
-        <div className="recipe-page m-3 p-3 page-content">
+        <div className="p-3 page-content">
             {!recipe ? (
                 <div className="text-muted text-center">
                     <LottiePlayer src="https://lottie.host/10236891-3b0a-4744-be9f-74e8fd54026d/in2dZGOmWu.lottie" />

@@ -116,7 +116,7 @@ const TagsManager = () => {
                 </button>
             </form>
             <div className="table-responsive">
-                <table className="table table-striped rounded overflow-hidden shadow">
+                <table className="table table-striped rounded overflow-hidden">
                     <thead className="table-dark">
                         <tr>
                             <th>Image</th>

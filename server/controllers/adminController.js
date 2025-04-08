@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
+const ContactMessage = require('../models/ContactMessage');
 
 const getAdminStats = async (req, res) => {
     try {
@@ -142,4 +143,33 @@ const deleteRecipe = async (req, res) => {
     }
 };
 
-module.exports = { getAdminStats, getUsers, deleteUser, getRecipes, deleteRecipe };
+// GET - View all messages (for admin)
+const getAllMessages = async (req, res) => {
+  try {
+    const messages = await ContactMessage.find().sort({ createdAt: -1 });
+    res.json(messages);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch messages' });
+  }
+};
+
+// PUT - Update status
+const updateMessageStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const updated = await ContactMessage.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    res.json({ message: 'Status updated', data: updated });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update status' });
+  }
+};
+
+
+module.exports = { getAdminStats, getUsers, deleteUser, getRecipes, deleteRecipe, getAllMessages, updateMessageStatus };
