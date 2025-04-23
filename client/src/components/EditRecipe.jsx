@@ -55,9 +55,9 @@ const EditRecipe = () => {
     };
 
     const calculateDifficulty = (time) => {
-        if (time <= 15) return 'Easy';
-        if (time <= 45) return 'Medium';
-        return 'Hard';
+        if (time <= 15) return 'Beginner';
+        if (time <= 45) return 'Intermediate';
+        return 'Advanced';
     };
 
     const handleIngredientChange = (index, field, value) => {
